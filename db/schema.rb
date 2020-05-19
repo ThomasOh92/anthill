@@ -10,10 +10,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_19_024522) do
+ActiveRecord::Schema.define(version: 2020_05_19_030948) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "instructions", force: :cascade do |t|
+    t.text "body"
+    t.bigint "project_id"
+    t.index ["project_id"], name: "index_instructions_on_project_id"
+  end
+
+  create_table "projects", force: :cascade do |t|
+    t.string "subject"
+    t.string "name"
+  end
+
+  create_table "task_comments", force: :cascade do |t|
+    t.text "comment"
+    t.bigint "task_id"
+    t.index ["task_id"], name: "index_task_comments_on_task_id"
+  end
+
+  create_table "tasks", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.boolean "done"
+    t.bigint "project_id"
+    t.index ["project_id"], name: "index_tasks_on_project_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -24,8 +49,12 @@ ActiveRecord::Schema.define(version: 2020_05_19_024522) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "teacher"
+    t.string "name"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "instructions", "projects"
+  add_foreign_key "task_comments", "tasks"
+  add_foreign_key "tasks", "projects"
 end
