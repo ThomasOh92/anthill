@@ -1,2 +1,22 @@
-<h1>Projects#edit</h1>
-<p>Find me in app/views/projects/edit.html.erb</p>
+<h1>Edit Project for <%= @teacher.name %></h1>
+
+<%= form_with scope: :project, url: projects_path, local: true do |form| %>
+
+  <p>
+    <%= form.label :subject %><br>
+    <%= form.text_field :subject %>
+  </p>
+
+  <p>
+    <%= form.label :name %><br>
+    <%= form.text_field :name %>
+  </p>
+
+  <p>
+    <%= form.hidden_field :teacher_id, :value => @teacher.id %>
+  </p>
+
+  <p>
+    <%= form.submit %>
+  </p>
+<% end %>
