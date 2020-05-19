@@ -1,11 +1,16 @@
+<div class="row">
+  <div class="col-4 col"></div>
+  <div class="col-4 col">
+    <h1>Projects</h1>
 
-<h1>Projects</h1>
+        <% @projects.each do |project| %>
+            <p><%= project.name%></p>
+            <p><%= project.subject%></p>
+            <br>
+        <% end %>
 
-<% @projects.each do |project| %>
-    <p><%= project.name%></p>
-    <p><%= project.subject%></p>
-    <br>
-<% end %>
+  </div>
+  <div class="col-4 col"></div>
 </div>
 
 

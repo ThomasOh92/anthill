@@ -1,29 +1,42 @@
-<h2>Log in</h2>
-
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
-
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
-    </div>
-  <% end %>
-
-  <div class="actions">
-    <%= f.submit "Log in" %>
-  </div>
+<div style="display: flex; align-items: center; flex-direction: column">
+<img class="border-white margin-top-small" src="<%= image_url 'anthill-logo.png' %>" height="100" width="100"/>
+<h2 style="margin: 0">Anthill</h2>
+<hr>
+<% if current_page?('/users/sign_in') %>
+  <h4 class="margin-top-small">Student Log in</h4>
+<% else %>
+  <h4 class="margin-small">Teacher Log in</h4>
 <% end %>
+<div class="margin-bottom-large">
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <div class="field">
+        <%= f.label :email %><br />
+        <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+      </div>
 
+      <div class="field">
+        <%= f.label :password %><br />
+        <%= f.password_field :password, autocomplete: "current-password" %>
+      </div>
+
+      <% if devise_mapping.rememberable? %>
+        <div class="field">
+          <%= f.check_box :remember_me %>
+          <%= f.label :remember_me %>
+        </div>
+      <% end %>
+
+      <div class="actions">
+        <%= f.submit "Log in" %>
+      </div>
+    <% end %>
+</div>
 <%= render "devise/shared/links" %>
 <br>
 <br>
-<%=link_to "Teacher? Sign In here",  new_teacher_session_path%>
+
+  <% if current_page?('/users/sign_in') %>
+    <%=link_to "Teacher? Sign In here",  new_teacher_session_path%>
+  <% end %>
+
+</div>
