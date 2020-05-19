@@ -21,9 +21,19 @@
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
+  <div class="field">
+     <%= f.label :name %><br />
+     <%= f.text_field :name, autofocus: true %>
+  </div>
+
   <div class="actions">
     <%= f.submit "Sign up" %>
   </div>
 <% end %>
 
+
+
 <%= render "devise/shared/links" %>
+<br>
+<br>
+<%=link_to "Teacher? Sign Up here",  new_teacher_registration_path%>
