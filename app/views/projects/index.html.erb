@@ -27,3 +27,9 @@
 <br>
 
 <%= link_to 'New Project', new_project_path %>
+
+<% if teacher_signed_in? %>
+<%= link_to 'Log Out', destroy_teacher_session_url, method: :delete %>
+<% else %>
+<%= link_to 'Log In', new_teacher_session_url %>
+<% end %>

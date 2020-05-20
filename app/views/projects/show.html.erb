@@ -10,7 +10,26 @@
   <strong>Subject:</strong>
   <%= @project.subject %>
 </p>
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Task #</th>
+      <th scope="col">Task Name</th>
+      <th  colspan="5"></th>
+    </tr>
+  </thead>
+<% @tasks.each do |task|%>
+    <tr>
+        <td><%=task.id%></td>
+        <td><%=task.name%></td>
+        <td><%= link_to 'Edit', edit_project_task_path(task.project_id, task.id) %></td>
+        <td><%= link_to  "Delete", project_task_path(task.project_id, task.id), method: :delete , data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+    <% end %>
 
+  </tbody>
+</table>
+<%= render 'tasks/form'  %>
 
 
 
