@@ -1,6 +1,10 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Projects</h1>
+        <% @projects.each do |project| %>
+            <p><%= project.name%></p>
+            <p><%= project.subject%></p>
+            <br>
+        <% end %>
 
 <table>
   <thead>
