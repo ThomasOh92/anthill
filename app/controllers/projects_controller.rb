@@ -1,23 +1,34 @@
 class ProjectsController < ApplicationController
-  before_action :set_teacher, only: [:new, :index, :show, :edit, :update, :destroy]
+  before_action :set_user, only: [:new, :index, :show, :edit, :update, :destroy]
 
   def index
-    @projects = Project.where(teacher_id: @teacher.id)
+    if teacher_signed_in?
+      @projects = Project.where(teacher_id: @teacher.id)
+    else
+      @projects = @student.projects
+    end
   end
 
   def show
     @project = Project.find(params[:id])
-    @task = Task.new
-    @tasks = @project.tasks.order("id")
+    redirect_to project_tasks_path(@project)
   end
 
   def edit
-    @project = Project.find(params[:id])
-    @teacher
+    if student_signed_in?
+      redirect_to projects_path
+    else
+      @project = Project.find(params[:id])
+      @teacher
+    end
   end
 
   def new
-    @teacher
+    if student_signed_in?
+      redirect_to projects_path
+    else
+      @teacher
+    end
   end
 
   def create
@@ -46,8 +57,12 @@ class ProjectsController < ApplicationController
   end
 
   private
-    def set_teacher
-      @teacher = current_teacher
+    def set_user
+      if teacher_signed_in?
+        @teacher = current_teacher
+      else
+        @student = current_student
+      end
     end
 
     def project_params

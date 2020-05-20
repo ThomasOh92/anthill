@@ -1,7 +1,6 @@
 <h1>Edit Project for <%= @teacher.name %></h1>
 
-<%= form_with scope: :project, url: projects_path, local: true do |form| %>
-
+<%= form_with scope: :project, model: @project, local: true do |form| %>
   <p>
     <%= form.label :subject %><br>
     <%= form.text_field :subject %>

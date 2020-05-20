@@ -1,2 +1,104 @@
-<h1>Tasks#index</h1>
-<p>Find me in app/views/tasks/index.html.erb</p>
+<h1>PROJECT Tasks#index</h1>
+<p id="notice"><%= notice %></p>
+<p>
+  <strong>Name:</strong>
+  <%= @project.name %>
+</p>
+
+<p>
+  <strong>Subject:</strong>
+  <%= @project.subject %>
+</p>
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">No.</th>
+      <th scope="col">Task</th>
+      <th  colspan="5"></th>
+    </tr>
+  </thead>
+<%tasknum = 1%>
+<% @tasks.each do |task|%>
+    <% modalid = "modal-task-#{task.id}"%>
+    <%if task.done%>
+      <tr class="background-primary">
+    <%else%>
+      <tr>
+    <%end%>
+        <td><%=tasknum%></td>
+        <td>
+            <strong class="background-secondary"><%=task.name%></strong><br>
+            <%=task.description%><br>
+        </td>
+        <td class="edit-options d-none">
+          <div>
+            <div style="display: inline">
+              <label style="line-height: normal" class="paper-btn padding-small" for=<%=modalid%>>Edit</label>
+            </div>
+            <input class="modal-state" id=<%=modalid%> type="checkbox">
+            <div class="modal">
+              <label class="modal-bg" for=<%=modalid%>></label>
+              <div class="modal-body">
+                <h1>Edit Task for <%= task.project.name %></h1>
+                  <%= form_with url: "/projects/#{@project.id}/tasks/#{task.id}", model: task, local: true do |form| %>
+                    <p>
+                      <%= form.label :name %><br>
+                      <%= form.text_field :name, :value => task.name %>
+                    </p>
+                    <p>
+                      <%= form.label :description %><br>
+                      <%= form.text_field :description, :value => task.description %>
+                    </p>
+                    <p>
+                      <%= form.label :done? %><br>
+                      <%= form.check_box :done %>
+                    </p>
+                    <p>
+                      <%= form.hidden_field :project_id, :value => task.project.id %>
+                    </p>
+                    <p>
+                      <%= form.submit %>
+                    </p>
+                  <% end %>
+                  <%= link_to 'Back', projects_path %>
+
+              </div>
+            </div>
+          </div>
+          
+          <%#= link_to 'Edit', edit_project_task_path(task.project_id, task.id) %>
+        </td>
+        <td class="edit-options d-none"><%= button_to  "Delete", project_task_path(task.project_id, task.id), method: :delete , data: { confirm: 'Are you sure?' }, class:"paper-btn padding-small" %></td>
+    </tr>
+    <%tasknum += 1%>
+    <% end %>
+  </tbody>
+</table>
+<div>
+  <div style="display: inline">
+    <label class="paper-btn margin" for="modal-1">New</label>
+  </div>
+  <input class="modal-state" id="modal-1" type="checkbox">
+  <div class="modal">
+    <label class="modal-bg" for="modal-1"></label>
+    <div class="modal-body">
+      <%= render 'tasks/form'  %>
+    </div>
+  </div>
+</div>
+<div style="display: inline"> 
+  <button id="reveal-edits" >Edit</button>
+</div>
+
+
+
+
+
+<% if teacher_signed_in? %>
+  <span><%= link_to 'Edit', edit_project_path(@project)%></span>
+  <span><%= link_to 'Delete', project_path(@project),
+            method: :delete,
+            data: { confirm: 'Are you sure?' } %></span>
+<% end %>
+
+<%= link_to 'Back', projects_path %>
