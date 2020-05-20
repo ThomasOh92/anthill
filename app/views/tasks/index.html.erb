@@ -9,6 +9,20 @@
   <strong>Subject:</strong>
   <%= @project.subject %>
 </p>
+
+<p>
+  <strong>Students:</strong>
+  <% @project.students.each do |student| %>
+    <span>| </span><%=student.name%>
+  <%end%>
+  <span> |</span>
+</p>
+
+<p>
+  <strong>Teacher-In-Charge:</strong>
+  <%= @project.teacher.name %>
+</p>
+
 <table class="table">
   <thead class="thead-dark">
     <tr>

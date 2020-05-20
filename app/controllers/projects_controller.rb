@@ -28,11 +28,17 @@ class ProjectsController < ApplicationController
       redirect_to projects_path
     else
       @teacher
+      @students = Student.all
     end
   end
 
   def create
     @project = Project.new(project_params)
+    params[:student_ids].each do |id|
+      integer_id = id.to_i
+      student = Student.find(integer_id)
+      @project.students << student
+    end  
     @teacher
     result = @project.save
 
@@ -66,6 +72,6 @@ class ProjectsController < ApplicationController
     end
 
     def project_params
-      params.require(:project).permit(:subject, :name, :teacher_id)
+      params.require(:project).permit(:subject, :name, :teacher_id, :student_ids)
     end
 end

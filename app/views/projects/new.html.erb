@@ -11,7 +11,15 @@
     <%= form.text_field :subject %>
   </p>
 
- 
+
+  <fieldset class="form-group">
+    <legend>Students</legend>
+    <% @students.each do |student| %>
+      <label for="student-<%=student.id%>" class="paper-check">
+        <input type="checkbox" name="student_ids[]" id="student-<%=student.id%>" value=<%=student.id%>> <span><%=student.name%></span>
+      </label>
+    <% end %>
+  </fieldset>
 
   <p>
     <%= form.hidden_field :teacher_id, :value => @teacher.id %>
