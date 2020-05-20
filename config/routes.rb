@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'tasks/index'
+  get 'tasks/show'
+  get 'tasks/edit'
+  get 'tasks/new'
   devise_for :teachers
   devise_for :users
   resources :projects do

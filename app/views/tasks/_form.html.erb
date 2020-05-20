@@ -1,0 +1,22 @@
+<%= form_for([@project, @task]) do |form| %>
+
+<%# if user_signed_in? %>
+  <div class="field">
+    <%= form.label "New Task:"%>
+    <%= form.text_field :name %>
+  </div>
+  <div class="field">
+    <%= form.label "Description:"%>
+    <%= form.text_area :description %>
+  </div>
+  <div class="field">
+    <%= form.hidden_field(:done, value: false)
+    %>
+  <div class="field">
+    <%#= form.hidden_field(:user_id, value: current_user.id)
+    %>
+  </div>
+  <div class="actions">
+    <%= form.submit  "Add Task"%>
+  </div>
+<% end %>

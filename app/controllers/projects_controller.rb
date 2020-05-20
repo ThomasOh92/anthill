@@ -7,6 +7,8 @@ class ProjectsController < ApplicationController
 
   def show
     @project = Project.find(params[:id])
+    @task = Task.new
+    @tasks = @project.tasks.order("id")
   end
 
   def edit
