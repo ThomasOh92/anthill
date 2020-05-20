@@ -15,7 +15,7 @@
     <% @instructions.each do |instruction| %>
       <tr>
         <td><%= instruction.caption %></td>
-        <td><%= instruction.project %></td>
+        <td><%= instruction.project.subject %></td>
         <td><%= link_to 'Show', instruction %></td>
         <td><%= link_to 'Edit', edit_instruction_path(instruction) %></td>
         <td><%= link_to 'Destroy', instruction, method: :delete, data: { confirm: 'Are you sure?' } %></td>

@@ -18,12 +18,12 @@
 
   <div class="field">
     <%= form.label :project_id %>
-    <%= form.text_field :project_id %>
+    <%= form.collection_select :project_id, @projects, :id, :subject %>
   </div>
 
   <div class="field">
     <%= form.label :images %>
-    <%= form.file_field :images, direct_upload: true, multiple: true %>
+    <%= form.file_field :images, multiple: true, direct_upload: true %>
   </div>
 
   <div class="actions">

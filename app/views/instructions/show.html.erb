@@ -7,13 +7,13 @@
 
 <p>
   <strong>Project:</strong>
-  <%= @instruction.project %>
+  <%= @instruction.project.subject %>
 </p>
 
 <p>
   <strong>Project:</strong>
-  <%= @instruction.images.each do |image| %>
-    <%= url_for(@instruction.image, width: 300, height: 200)%>
+  <% (0..@instruction.images.count-1).each do |image| %>
+    <%= image_tag(@instruction.images[image], width: 300, height: 200)%>
   <% end %>
 </p>
 

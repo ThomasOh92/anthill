@@ -15,17 +15,19 @@ class InstructionsController < ApplicationController
   # GET /instructions/new
   def new
     @instruction = Instruction.new
+    @projects = Project.all
   end
 
   # GET /instructions/1/edit
   def edit
+    @projects = Project.all
   end
 
   # POST /instructions
   # POST /instructions.json
   def create
     @instruction = Instruction.new(instruction_params)
-
+    @projects = Project.all
     respond_to do |format|
       if @instruction.save
         format.html { redirect_to @instruction, notice: 'Instruction was successfully created.' }
