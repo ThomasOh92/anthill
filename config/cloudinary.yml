@@ -1,0 +1,19 @@
+---
+development:
+  cloud_name: p3anthill
+  api_key: '278413959812475'
+  api_secret: RdwAbki6PYBWgd23yn0nVOlkuOQ
+  enhance_image_tag: true
+  static_file_support: false
+production:
+  cloud_name: p3anthill
+  api_key: '278413959812475'
+  api_secret: RdwAbki6PYBWgd23yn0nVOlkuOQ
+  enhance_image_tag: true
+  static_file_support: true
+test:
+  cloud_name: p3anthill
+  api_key: '278413959812475'
+  api_secret: RdwAbki6PYBWgd23yn0nVOlkuOQ
+  enhance_image_tag: true
+  static_file_support: false

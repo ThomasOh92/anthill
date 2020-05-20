@@ -1,0 +1,21 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Caption:</strong>
+  <%= @instruction.caption %>
+</p>
+
+<p>
+  <strong>Project:</strong>
+  <%= @instruction.project %>
+</p>
+
+<p>
+  <strong>Project:</strong>
+  <%= @instruction.images.each do |image| %>
+    <%= url_for(@instruction.image, width: 300, height: 200)%>
+  <% end %>
+</p>
+
+<%= link_to 'Edit', edit_instruction_path(@instruction) %> |
+<%= link_to 'Back', instructions_path %>
