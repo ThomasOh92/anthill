@@ -1,0 +1,17 @@
+<h1>Task Comments</h1>
+
+<table>
+  <tbody>
+    <% @taskcomments.each do |taskcomment| %>
+      <tr>
+        <td>
+            <%= taskcomment.comment %>
+            <%= taskcomment.task.name %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
