@@ -33,11 +33,11 @@
             <li><a href="/projects">Projects</a></li>
             <% if student_signed_in?%>
             <li><a href="/students/edit">Edit Profile</a></li>
-            <li><%= link_to 'Log Out', destroy_student_session_url, method: :delete %><li>
+            <li><%= link_to 'Student Log Out', destroy_student_session_url, method: :delete %><li>
 
             <%elsif teacher_signed_in? %>
             <li><a href="/teachers/edit">Edit Profile</a></li>
-            <li><%= link_to 'Log Out', destroy_teacher_session_url, method: :delete %><li>
+            <li><%= link_to 'Teacher Log Out', destroy_teacher_session_url, method: :delete %><li>
             <% else %>
             <% end %>
 
