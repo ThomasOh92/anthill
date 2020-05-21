@@ -40,7 +40,7 @@
               <%= form_with url: "/projects/#{@project.id}/instructions/#{instruction.id}", model: instruction, local: true do |form| %>
                 <p>
                   <%= form.label :description %><br>
-                  <%= form.text_field :description, :value => instruction.description %>
+                  <%= form.text_area :description, :value => instruction.description, rows: 6, cols: 80 %>
                 </p>
                 <p>
                   <%= form.label :images %><br>
