@@ -1,44 +1,49 @@
 
 <p class="margin-small" id="notice"><%= notice %></p>
 <div class= "row margin-small padding-none">
-<h3 class="padding-none">Hi <%=@current_user.name%> !</h3>
+<h3 class="padding-none  animate__animated animate__bounce">Hi <%=@current_user.name%> !</h3>
 
 </div>
-<div class= "row margin-small ">
+<div class= "row margin-small">
 <%if @projects.empty?%>
 <h3>No projects to show</h3>
 <%else%>
-<table>
-  <thead>
-    <tr>
-      <th>Project Name</th>
-      <th>Subject</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<h3 class>Projects:</h3>
+</div>
+<div class= "row margin-small">
 
-  <tbody>
-    <% @projects.each do |project| %>
-      <tr>
-        <td><%= project.name %></td>
-        <td><%= project.subject %></td>
-        <td><%= link_to 'Show', project %></td>
-        <% if teacher_signed_in? %>
-          <td><%= link_to 'Edit', edit_project_path(project) %></td>
-          <td><%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+ <% @projects.each do |project| %>
+    <div class="card border" style="width: 20rem;">
+      <div class="card-body">
+        <h4 class="card-title"><%= project.name %></h4>
+        <h5 class="card-subtitle">Subject: <%=project.subject%></h5>
+        <p class="card-text text-medium"><strong>Students: </strong>
+              <% project.students.each do |student| %>
+                <span>| </span><%=student.name%>
+              <%end%>
+              <span> |</span></p>
+        <%= link_to 'View', project ,class:"card-link text-large"%>
+         <% if teacher_signed_in? %>
+          <%= link_to 'Edit', edit_project_path(project),class:"card-link text-large" %>
+          <%= link_to 'Delete', project, method: :delete, data: { confirm: 'Are you sure?' },class:"card-link text-large" %>
         <% end %>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+      </div>
+    </div>
+<%end%>
+</div>
 <%end%>
 <br/>
 </div>
+
+
+<br/>
+</div>
+
 <div class= "row margin-small ">
 
 <% if teacher_signed_in? %>
 
-<%= link_to 'New Project', new_project_path , class: "paper-btn"%>
+<%= link_to 'New Project', new_project_path , class: "paper-btn animate__animated animate__slideInRight"%>
 <%#= link_to 'Log Out', destroy_teacher_session_url, method: :delete %>
 <%# else %>
 <%#= link_to 'Teacher Log In', new_teacher_session_url %>

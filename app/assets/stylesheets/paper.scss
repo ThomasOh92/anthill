@@ -1383,7 +1383,8 @@ button.btn-muted:hover:active {
 }
 .card .card-body .card-subtitle,
 .card .card-body h5 {
-  color: #0071de;
+  // color: #0071de;
+  color: black;
   margin-bottom: .5rem;
   margin-top: 0
 }
@@ -1394,7 +1395,7 @@ button.btn-muted:hover:active {
 }
 .card .card-body .card-link + .card-link,
 .card .card-body a + a {
-  margin-left: 1.25rem
+  margin-left: 1.25rem;
 }
 .card .image-bottom,
 .card .image-top,
