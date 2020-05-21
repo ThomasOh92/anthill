@@ -1,7 +1,9 @@
 
 <div class= "row margin">
 <p id="notice"><%= notice %></p>
-
+<%if @projects.empty?%>
+<h3>No projects to show</h3>
+<%else%>
 <table>
   <thead>
     <tr>
@@ -25,10 +27,11 @@
     <% end %>
   </tbody>
 </table>
-
-<br>
+<%end%>
+<br/>
 
 <% if teacher_signed_in? %>
+
 <%= link_to 'New Project', new_project_path , class: "paper-btn"%>
 <%#= link_to 'Log Out', destroy_teacher_session_url, method: :delete %>
 <%# else %>
