@@ -94,14 +94,22 @@
       <%doneTasks = @project.tasks.where(done:true).count%>
       <%percentDone = (doneTasks.to_f/totalTasks.to_f*100).to_i%>
        <div class="progress margin-bottom col-10">
-      <% if percentDone != 0%>
-       <div class="bar success w-<%=percentDone%>"><%=percentDone%>% Completed</div>
-      <% end %>
+        <% if percentDone != 0%>
+          <div class="bar success w-<%=percentDone%>"><%=percentDone%>% Completed</div>
+        <% end %>
       </div>
-    <% end %>
-   
+        <%if percentDone>=25 and percentDone<50%>
+          <h2><span class="badge">Good Start! 👏</span></h2>
+        <%elsif percentDone>=50 and percentDone<75%>
+          <h2><span class="badge warning">Halfway There! ✌</span></h2>
+        <%elsif percentDone>=75 and percentDone<100%>
+          <h2><span class="badge secondary">Just a bit more! 💪</span></h2>
+        <%elsif percentDone==100%>
+          <h2><span class="badge success">🌟Awesome! Well Done!🌟</span></h2>
+        <% end %>
+      <% end %>
 
-<div>
+
   <div style="display: inline">
     <label class="paper-btn margin" for="modal-1">New</label>
   </div>
