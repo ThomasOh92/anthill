@@ -15,3 +15,15 @@
  */
 
  @import "paper";
+
+ .footer {
+     margin-top: 20px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #d0dbc1;
+    // background-image: asset-url('Dirt-Background-Images.jpg');
+    color: brown;
+    text-align: center;
+  }

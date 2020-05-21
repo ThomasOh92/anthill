@@ -8,8 +8,11 @@ class ProjectsController < ApplicationController
   def index
     if teacher_signed_in?
       @projects = Project.where(teacher_id: @teacher.id)
+      @current_user = current_teacher
     else
       @projects = @student.projects
+      @current_user = current_student
+
     end
   end
 
