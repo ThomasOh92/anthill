@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   get 'tasks/edit'
   get 'tasks/new'
   devise_for :teachers
+
+ root to: "projects#index"
+
   resources :projects do
     resources :tasks
   end

@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  # before_action :authenticate_user!
+    before_action :authenticate_user!
   
   def index
     @project = Project.find(params[:project_id])
@@ -42,4 +42,12 @@ class TasksController < ApplicationController
       params.require(:task).permit(:name, :description, :done)
   end
 
+  def authenticate_user!
+    if teacher_signed_in?
+      @current_user = current_teacher
+      true
+    else
+      authenticate_student!
+    end
+  end
 end

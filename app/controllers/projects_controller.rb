@@ -1,4 +1,8 @@
 class ProjectsController < ApplicationController
+  before_action :authenticate_user!
+
+  
+
   before_action :set_user, only: [:new, :index, :show, :edit, :update, :destroy]
 
   def index
@@ -55,7 +59,7 @@ class ProjectsController < ApplicationController
 
     redirect_to projects_path
   end
-
+  
   private
     def set_user
       if teacher_signed_in?
@@ -68,4 +72,14 @@ class ProjectsController < ApplicationController
     def project_params
       params.require(:project).permit(:subject, :name, :teacher_id)
     end
+
+    def authenticate_user!
+      if teacher_signed_in?
+        @current_user = current_teacher
+        true
+      else
+        authenticate_student!
+      end
+    end
+   
 end
