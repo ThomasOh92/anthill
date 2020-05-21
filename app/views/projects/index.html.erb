@@ -1,16 +1,16 @@
 
-<p class="margin-small" id="notice"><%= notice %></p>
-<div class= "row margin-small padding-none">
+<p class="margin" id="notice"><%= notice %></p>
+<div class= "row margin padding-none">
 <h3 class="padding-none  animate__animated animate__bounce">Hi <%=@current_user.name%> !</h3>
 
 </div>
-<div class= "row margin-small">
+<div class= "row margin">
 <%if @projects.empty?%>
 <h3>No projects to show</h3>
 <%else%>
 <h3 class>Projects:</h3>
 </div>
-<div class= "row margin-small flex-left">
+<div class= "row margin flex-left">
 
  <% @projects.each do |project| %>
     <div class="card border" style="width: 20rem;">
@@ -39,7 +39,7 @@
 <br/>
 </div>
 
-<div class= "row margin-small ">
+<div class= "row margin ">
 
 <% if teacher_signed_in? %>
 
