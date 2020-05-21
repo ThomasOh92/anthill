@@ -89,14 +89,18 @@
   </tbody>
 </table>
 <br>
- <div class="progress margin-bottom col-10">
-    <%totalTasks = @project.tasks.count%>
-    <%doneTasks = @project.tasks.where(done:true).count%>
-    <%percentDone = (doneTasks.to_f/totalTasks.to_f*100).to_i%>
-    <% if percentDone != 0%>
-      <div class="bar success w-<%=percentDone%>"><%=percentDone%>% Completed</div>
+ <%if @project.tasks.count !=0%>
+      <%totalTasks = @project.tasks.count%>
+      <%doneTasks = @project.tasks.where(done:true).count%>
+      <%percentDone = (doneTasks.to_f/totalTasks.to_f*100).to_i%>
+       <div class="progress margin-bottom col-10">
+      <% if percentDone != 0%>
+       <div class="bar success w-<%=percentDone%>"><%=percentDone%>% Completed</div>
+      <% end %>
+      </div>
     <% end %>
-  </div>
+   
+
 <div>
   <div style="display: inline">
     <label class="paper-btn margin" for="modal-1">New</label>
