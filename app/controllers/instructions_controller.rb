@@ -1,76 +1,57 @@
 class InstructionsController < ApplicationController
-  before_action :set_instruction, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
 
-  # GET /instructions
-  # GET /instructions.json
   def index
-    @instructions = Instruction.all
-  end
-
-  # GET /instructions/1
-  # GET /instructions/1.json
-  def show
-  end
-
-  # GET /instructions/new
-  def new
+    @project = Project.find(params[:project_id])
     @instruction = Instruction.new
-    @projects = Project.all
+    @instructions = @project.instructions.order("id")
   end
 
-  # GET /instructions/1/edit
-  def edit
-    @projects = Project.all
-  end
-
-  # POST /instructions
-  # POST /instructions.json
   def create
-    @instruction = Instruction.new(instruction_params)
-    @projects = Project.all
-    respond_to do |format|
-      if @instruction.save
-        format.html { redirect_to @instruction, notice: 'Instruction was successfully created.' }
-        format.json { render :show, status: :created, location: @instruction }
-      else
-        format.html { render :new }
-        format.json { render json: @instruction.errors, status: :unprocessable_entity }
-      end
+    @project = Project.find(params[:project_id])
+    @instruction = @project.instructions.new(instruction_params)
+    if @instruction.save
+      redirect_to project_instructions_path, notice: 'Instruction was successfully created.'
+    else
+      redirect_to project_instructions_path, alert: "Unable to add note!"
     end
   end
 
-  # PATCH/PUT /instructions/1
-  # PATCH/PUT /instructions/1.json
+  def edit
+    @project = Project.find(params[:project_id])
+    @instruction = Instruction.find(params[:id])
+  end
+
+  def show
+    @project = Project.find(params[:project_id])
+    @instruction = Instruction.find(params[:id])
+  end
+
   def update
-    respond_to do |format|
-      if @instruction.update(instruction_params)
-        format.html { redirect_to @instruction, notice: 'Instruction was successfully updated.' }
-        format.json { render :show, status: :ok, location: @instruction }
-      else
-        format.html { render :edit }
-        format.json { render json: @instruction.errors, status: :unprocessable_entity }
-      end
-    end
+    @project = Project.find(params[:project_id])
+    @instruction = Instruction.find(params[:id].update(instruction_params))
+
+    redirect_to project_instructions_path, notice: 'Instruction edited.'
   end
 
-  # DELETE /instructions/1
-  # DELETE /instructions/1.json
   def destroy
+    @project = Project.find(params[:project_id])
+    @instruction = @project.instructions.find(params[:id])
     @instruction.destroy
-    respond_to do |format|
-      format.html { redirect_to instructions_url, notice: 'Instruction was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    redirect_to project_instructions_path, notice: "Note deleted!"
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_instruction
-      @instruction = Instruction.find(params[:id])
+    def instruction_params
+      params.require(:instruction).permit(:description, :images => [])
     end
 
-    # Only allow a list of trusted parameters through.
-    def instruction_params
-      params.require(:instruction).permit(:caption, :project_id, :images => [])
+    def authenticate_user!
+      if teacher_signed_in?
+        @current_user = current_teacher
+        true
+      else
+        authenticate_student!
+      end
     end
 end

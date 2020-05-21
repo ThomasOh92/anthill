@@ -1,29 +1,84 @@
+<h1>PROJECT Instructions</h1>
 <p id="notice"><%= notice %></p>
+<p>
+  <strong>Name:</strong>
+  <%= @project.name %>
+</p>
+<p>
+  <strong>Subject:</strong>
+  <%= @project.subject %>
+</p>
 
-<h1>Instructions</h1>
 
-<table>
-  <thead>
+<table class="table">
+  <thead class="thead-dark">
     <tr>
-      <th>Project</th>
-      <th>Description</th>
+      <th scope="col">Project</th>
+      <th scope="col">Description</th>
       <th colspan="3"></th>
     </tr>
   </thead>
-
   <tbody>
-    <% @instructions.each do |instruction| %>
-      <tr>
-        <td><%= instruction.project.subject %></td>
-        <td><%= instruction.description %></td>
-        <td><%= link_to 'Show', instruction %></td>
-        <td><%= link_to 'Edit', edit_instruction_path(instruction) %></td>
-        <td><%= link_to 'Destroy', instruction, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+  <%instructionnum = 1%>
+  <% @instructions.each do |instruction|%>
+    <% modalid = "modal-task-#{instruction.id}"%>
+    <tr>
+      <td><%=instructionnum%></td>
+      <td>
+        <%=instruction.description%><br>
+      </td>
+      <td class="edit-options d-none">
+        <div>
+          <div style="display: inline">
+            <label style="line-height: normal" class="paper-btn padding-small" for=<%=modalid%>>Edit</label>
+          </div>
+          <input class="modal-state" id=<%=modalid%> type="checkbox">
+          <div class="modal">
+            <label class="modal-bg" for=<%=modalid%>></label>
+            <div class="modal-body">
+              <h1>Edit Instruction for <%= instruction.project.name %></h1>
+              <%= form_with url: "/projects/#{@project.id}/instructions/#{instruction.id}", model: instruction, local: true do |form| %>
+                <p>
+                  <%= form.label :description %><br>
+                  <%= form.text_field :description, :value => instruction.description %>
+                </p>
+                <p>
+                  <%= form.label :images %><br>
+                  <%= form.file_field :images, multiple: true, direct_upload: true %>
+                </p>
+                <p>
+                  <%= form.hidden_field :project_id, :value => instruction.project.id %>
+                </p>
+                <p>
+                  <%= form.submit %>
+                </p>
+              <% end %>
+              <%= link_to 'Back', project_instructions_path %>
+          </div>
+        </div>
+      </div>
+      </td>
+      <td class="edit-options d-none"><%= button_to  "Delete", project_instruction_path(instruction.project_id, instruction.id), method: :delete , data: { confirm: 'Are you sure?' }, class:"paper-btn padding-small" %></td>
+    </tr>
+    <%instructionnum += 1%>
     <% end %>
   </tbody>
 </table>
-
 <br>
 
-<%= link_to 'New Instruction', new_instruction_path %>
+<div style="display: inline">
+  <label class="paper-btn margin" for="modal-1">New</label>
+</div>
+<input class="modal-state" id="modal-1" type="checkbox">
+<div class="modal">
+  <label class="modal-bg" for="modal-1"></label>
+  <div class="modal-body">
+    <%= render 'instructions/form' %>
+  </div>
+</div>
+</div>
+<div style="display: inline">
+<button id="reveal-edits" >Edit</button>
+</div>
+
+<%= link_to 'Back', projects_path %>

@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
     before_action :authenticate_user!
-  
+
   def index
     @project = Project.find(params[:project_id])
     @task = Task.new
@@ -19,13 +19,13 @@ class TasksController < ApplicationController
       @project = Project.find(params[:project_id])
       @task = Task.find(params[:id])
   end
-  
+
   def update
       @project = Project.find(params[:project_id])
       @task = Task.find(params[:id]).update(task_params)
 
       redirect_to @project
-      
+
   end
 
   def destroy
@@ -35,7 +35,7 @@ class TasksController < ApplicationController
 
       redirect_to @project
   end
-  
+
   private
 
   def task_params

@@ -1,0 +1,19 @@
+<h1>Edit Instruction for <%= instruction.project.name %></h1>
+<%= form_with scope: :instruction, model: instruction, local: true do |form| %>
+  <p>
+    <%= form.label :description %><br>
+    <%= form.text_field :description %>
+  </p>
+  <p>
+    <%= form.label :images %><br>
+    <%= form.file_field :images, multiple: true, direct_upload: true %>
+  </p>
+  <p>
+    <%= form.hidden_field :project_id, :value => instruction.project.id %>
+  </p>
+  <p>
+    <%= form.submit %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', project_instructions_path %>

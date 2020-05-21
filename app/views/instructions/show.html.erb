@@ -2,11 +2,11 @@
 
 <p>
   <strong>Project:</strong>
-  <%= @instruction.project.subject %>
+  <%= @instruction.project.subject%>
 </p>
 
 <p>
-  <strong>Caption:</strong>
+  <strong>Description:</strong>
   <%= @instruction.description %>
 </p>
 
@@ -20,9 +20,11 @@
 </p>
 
 
-
-<%= link_to 'Edit', edit_instruction_path(@instruction) %> <br>
-<%= link_to 'Delete', instruction_path(@instruction),
+<% if teacher_signed_in? %>
+  <span><%= link_to 'Edit', edit_project_instruction_path(@instruction) %></span>
+  <span><%= link_to 'Delete', project_instruction_path(@instruction),
         method: :delete,
-        data: { confirm: 'Are you sure?' } %> <br>
-<%= link_to 'Back', instructions_path %>
+        data: { confirm: 'Are you sure?' } %> </span>
+<% end %>
+
+<%= link_to 'Back', project_instructions_path %>
