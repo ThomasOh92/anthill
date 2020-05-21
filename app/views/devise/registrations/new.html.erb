@@ -1,5 +1,12 @@
-<h2>Sign up</h2>
-
+<div style="display: flex; align-items: center; flex-direction: column">
+<img class="border-white margin-top-small" src="<%= image_url 'anthill-logo.png' %>" height="100" width="100"/>
+<h2 style="margin: 0">Anthill</h2>
+<hr>
+<% if current_page?('/students/sign_up') %>
+  <h4 class="margin-top-small">Student Sign up</h4>
+<% elsif current_page?('/teachers/sign_up')%>
+  <h4 class="margin-small">Teacher Sign up</h4>
+<% end %>
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
 
@@ -7,7 +14,7 @@
     <%= f.label :email %><br />
     <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
   </div>
-
+  <br>
   <div class="field">
     <%= f.label :password %>
     <% if @minimum_password_length %>
@@ -15,25 +22,31 @@
     <% end %><br />
     <%= f.password_field :password, autocomplete: "new-password" %>
   </div>
+  <br>
 
   <div class="field">
     <%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
+  <br>
 
   <div class="field">
      <%= f.label :name %><br />
      <%= f.text_field :name, autofocus: true %>
   </div>
-
+  <br>
   <div class="actions">
-    <%= f.submit "Sign up" %>
+    <%= f.submit "Sign up", class: "paper-btn" %>
   </div>
 <% end %>
 
 
-
+<br>
 <%= render "devise/shared/links" %>
 <br>
-<br>
-<%=link_to "Teacher? Sign Up here",  new_teacher_registration_path%>
+
+  <% if current_page?('/students/sign_up') %>
+    <%=link_to "Teacher? Sign Up here",  new_teacher_registration_path%>
+  <% elsif current_page?('/teachers/sign_up') %>
+    <%=link_to "Student? Sign Up here",  new_student_registration_path%>
+  <% end %>

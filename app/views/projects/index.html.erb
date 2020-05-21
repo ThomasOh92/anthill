@@ -1,11 +1,9 @@
+
+<div class= "row margin">
 <p id="notice"><%= notice %></p>
-
-        <% @projects.each do |project| %>
-            <p><%= project.name%></p>
-            <p><%= project.subject%></p>
-            <br>
-        <% end %>
-
+<%if @projects.empty?%>
+<h3>No projects to show</h3>
+<%else%>
 <table>
   <thead>
     <tr>
@@ -29,12 +27,14 @@
     <% end %>
   </tbody>
 </table>
-
-<br>
+<%end%>
+<br/>
 
 <% if teacher_signed_in? %>
-<%= link_to 'New Project', new_project_path %>
-<%= link_to 'Log Out', destroy_teacher_session_url, method: :delete %>
-<% else %>
-<%= link_to 'Teacher Log In', new_teacher_session_url %>
+
+<%= link_to 'New Project', new_project_path , class: "paper-btn"%>
+<%#= link_to 'Log Out', destroy_teacher_session_url, method: :delete %>
+<%# else %>
+<%#= link_to 'Teacher Log In', new_teacher_session_url %>
 <% end %>
+</div>
