@@ -1,12 +1,12 @@
 <%# <h3>PROJECT Tasks#index</h1> %>
 <p id="notice"><%= notice %></p>
-<div class="row margin">
+<div class="row margin flex-edges">
 <h3>
   <strong>Project:</strong>
   <%= @project.name %>
 </h3>
-<h4>&emsp;|&emsp;&emsp;<strong><%= link_to 'View Instructions', project_path(@project)%></strong>&emsp;&emsp;|</h4>
-<h4>&emsp;&emsp;<strong><%= link_to 'View Teacher\'s Comments', project_path(@project)%></strong>&emsp;&emsp;|</h4>
+<div class="paper-btn padding-small"style="font-size:25px" ><strong><%= link_to 'View Instructions', project_path(@project)%></strong></div>
+<div class="paper-btn padding-small" style="font-size:25px"><strong><%= link_to 'View Teacher\'s Comments', project_path(@project)%></strong></div>
 
 </div>
 <p class="margin text-large">
@@ -87,7 +87,7 @@
                       <%= form.submit %>
                     </p>
                   <% end %>
-                  <%= link_to 'Back', project_path(task.project)%>
+                  <%# <%= link_to 'Back', project_path(task.project)%>
 
               </div>
             </div>
@@ -137,28 +137,28 @@
             <div class="modal">
               <label class="modal-bg" for=<%=modalid%>></label>
               <div class="modal-body">
-                <h1>Edit Task for <%= task.project.name %></h1>
+                <h4>Edit Task for <%= task.project.name %></h4>
                   <%= form_with url: "/projects/#{@project.id}/tasks/#{task.id}", model: task, local: true do |form| %>
-                    <p>
+                    <p class="field margin-bottom-small" style="font-size:15px">
                       <%= form.label :name %><br>
                       <%= form.text_field :name, :value => task.name %>
                     </p>
-                    <p>
+                    <p class="field margin-bottom-small" style="font-size:15px">
                       <%= form.label :description %><br>
                       <%= form.text_field :description, :value => task.description %>
                     </p>
-                    <p>
+                    <p class="field margin-bottom-small" style="font-size:15px">
                       <%= form.label :done? %><br>
                       <%= form.check_box :done %>
                     </p>
                     <p>
                       <%= form.hidden_field :project_id, :value => task.project.id %>
                     </p>
-                    <p>
+                    <p class="field margin-bottom-small" style="font-size:15px">
                       <%= form.submit %>
                     </p>
                   <% end %>
-                  <%= link_to 'Back', project_path(task.project)%>
+                  <%# <%= link_to 'Back', project_path(task.project)%>
 
               </div>
             </div>
