@@ -11,6 +11,23 @@
     <%= form.text_field :name %>
   </p>
 
+  <fieldset class="form-group">
+    <legend>Students</legend>
+    <% @students.each do |student| %>
+      <%if @project.student_ids.include?(student.id) %>
+        <label for="student-<%=student.id%>" class="paper-check">
+          <input type="checkbox" name="student_ids[]" id="student-<%=student.id%>" value=<%=student.id%> checked> <span><%=student.name%></span>
+        </label>
+      <%else%>
+        <label for="student-<%=student.id%>" class="paper-check">
+          <input type="checkbox" name="student_ids[]" id="student-<%=student.id%>" value=<%=student.id%>> <span><%=student.name%></span>
+        </label>
+      <%end%>
+    <% end %>
+  </fieldset>
+
+
+
   <p>
     <%= form.hidden_field :teacher_id, :value => @teacher.id %>
   </p>
