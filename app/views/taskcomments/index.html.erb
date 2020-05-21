@@ -1,17 +1,66 @@
-<h1>Task Comments</h1>
+<h4>Task Comments</h4>
+<%# Sort bar - See all comments for this project, see all comments for x task, etc. %>
+<% @taskcomments.each do |taskcomment| %>
+  <div class="card" style="width: 20rem; display: inline-flex">
+    <div class="card-header">
+      <h5 class="margin-small"><strong>Task:</strong> <%= taskcomment.task.name %> - <%= taskcomment.task.description %></h5>
+    </div>
+      <div class="card-body">
+        <p class="card-text" style="font-size: 20px"><%= taskcomment.comment %></p>
+    </div>
+    <%# Button to edit task comment %>
+    <div class="edit-taskcomment-options d-none">
+      <div style="display: inline">
+        <label style="line-height: normal" class="paper-btn padding-small" for=<%=taskcomment.id%>>Edit</label>
+      </div>
+      <input class="modal-state" id=<%=taskcomment.id%> type="checkbox">
+      <div class="modal">
+        <label class="modal-bg" for=<%=taskcomment.id%>></label>
+        <div class="modal-body">
+            <%= form_with scope: :taskcomment, url: "/projects/#{@project.id}/taskcomments/#{taskcomment.id}", model: taskcomment, local: true do |form| %>
 
-<table>
-  <tbody>
-    <% @taskcomments.each do |taskcomment| %>
-      <tr>
-        <td>
-            <%= taskcomment.comment %>
-            <%= taskcomment.task.name %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+              <p>
+                <%= form.hidden_field :id, :value => taskcomment.id %>
+              </p>
+              <p>
+                <%= form.text_field :comment, :value => taskcomment.comment %>
+              </p>
+              <%# <p>
+                <%= hidden_field :project_id, :value => taskcomment.task.project.id %>
+              
+              <p>
+                <%= form.submit "Update"%>
+              </p>
+            <% end %>
+        </div>
+      </div>
+    </div>          
+    <%# Button to destroy task comment %>
+    <div class="edit-taskcomment-options d-none">
+        <%= button_to  "Delete", project_taskcomment_path(taskcomment.task.project_id, taskcomment.id), method: :delete , data: { confirm: 'Are you sure?' }, class:"paper-btn padding-small" %>
+    </div>
+  </div>
+<% end %>
+<div>
+  <%# Button to add new task comment - opens up a modal %>
+  <div style="display: inline">
+    <label class="paper-btn margin" for="modal-new-taskcomment">New</label>
+  </div>
+  <input class="modal-state" id="modal-new-taskcomment" type="checkbox">
+  <div class="modal">
+    <label class="modal-bg" for="modal-new-taskcomment"></label>
+    <div class="modal-body">
+      <%= render 'taskcomments/form'  %>
+    </div>
+  </div>
+  <%# Button to reveal edit/destroy functions %>
+  <div style="display: inline"> 
+    <button id="reveal-taskcomment-edits" >Edit</button>
+  </div>
+</div>
+
+
 
 <br>
 
+<%= javascript_include_tag 'taskcomments' %>
