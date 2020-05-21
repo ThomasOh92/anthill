@@ -1,21 +1,28 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Caption:</strong>
-  <%= @instruction.caption %>
-</p>
-
-<p>
   <strong>Project:</strong>
   <%= @instruction.project.subject %>
 </p>
 
 <p>
+  <strong>Caption:</strong>
+  <%= @instruction.description %>
+</p>
+
+
+
+<p>
   <strong>Project:</strong>
   <% (0..@instruction.images.count-1).each do |image| %>
-    <%= image_tag(@instruction.images[image], width: 300, height: 200)%>
+  <%= image_tag(@instruction.images[image], width: 300, height: 200)%>
   <% end %>
 </p>
 
-<%= link_to 'Edit', edit_instruction_path(@instruction) %> |
+
+
+<%= link_to 'Edit', edit_instruction_path(@instruction) %> <br>
+<%= link_to 'Delete', instruction_path(@instruction),
+        method: :delete,
+        data: { confirm: 'Are you sure?' } %> <br>
 <%= link_to 'Back', instructions_path %>
