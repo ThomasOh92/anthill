@@ -5,6 +5,7 @@ class TasksController < ApplicationController
     @project = Project.find(params[:project_id])
     @task = Task.new
     @tasks = @project.tasks.order("id")
+    @taskcomments = Taskcomment.all
   end
 
   def create
