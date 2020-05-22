@@ -27,6 +27,21 @@
       <td>
         <%=instruction.description%><br>
       </td>
+      <td>
+        <div style="display: inline">
+          <label class="paper-btn margin" for="modal-2">Show</label>
+        </div>
+        <input class="modal-state" id="modal-2" type="checkbox">
+        <div class="modal">
+          <label class="modal-bg" for="modal-2"></label>
+          <div class="modal-body">
+            <p>
+              <%= link_to 'Download', instruction.document, download:'' %>
+
+            </p>
+          </div>
+        </div>
+      </td>
       <td class="edit-options d-none">
         <div>
           <div style="display: inline">

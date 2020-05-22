@@ -11,10 +11,9 @@
 </p>
 
 <p>
-  <strong>Project:</strong>
-  <% (0..@instruction.images.count-1).each do |image| %>
-  <%= image_tag(@instruction.images[image], width: 300, height: 200)%>
-  <% end %>
+  <strong>File:</strong>
+    <%= link_to 'View File', @instruction.document %>
+    <%= link_to 'Download', @instruction.document, download:'' %>
 </p>
 
 
