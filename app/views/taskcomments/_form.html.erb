@@ -1,0 +1,16 @@
+<%= form_for([@project, @taskcomment]) do |form| %>
+<%# if user_signed_in? %>
+  <div class="field">
+    <%= form.label "Choose Task:"%>
+    <%= form.collection_select :task_id, @project.tasks, :id, :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label "Comment:"%>
+    <%= form.text_area :comment %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit  "Add Task Comment"%>
+  </div>
+<% end %>

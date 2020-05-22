@@ -1,11 +1,11 @@
 <%= form_for([@project, @task]) do |form| %>
-
+  <h4>Add New Task</h4>
 <%# if user_signed_in? %>
-  <div class="field">
+  <div class="field margin-bottom-small" style="font-size:15px">
     <%= form.label "New Task:"%>
     <%= form.text_field :name %>
   </div>
-  <div class="field">
+  <div class="field margin-bottom-small" style="font-size:15px">
     <%= form.label "Description:"%>
     <%= form.text_area :description %>
   </div>
