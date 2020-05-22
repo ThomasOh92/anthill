@@ -6,10 +6,10 @@ Rails.application.routes.draw do
   get 'tasks/edit'
   get 'tasks/new'
 
-  get 'instructions/index'
-  get 'instructions/show'
-  get 'instructions/edit'
-  get 'instructions/new'
+  # get 'instructions/index'
+  # get 'instructions/show'
+  # get 'instructions/edit'
+  # get 'instructions/new'
 
   devise_for :teachers
 
@@ -18,9 +18,7 @@ Rails.application.routes.draw do
   resources :projects do
     resources :tasks
     resources :instructions
-  end
-
-  resources :projects do
+    resources :materials
     resources :taskcomments
   end
 

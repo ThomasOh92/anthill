@@ -1,4 +1,4 @@
-<h1>PROJECT Instructions</h1>
+<h1>PROJECT Materials</h1>
 <p id="notice"><%= notice %></p>
 <p>
   <strong>Name:</strong>
@@ -9,23 +9,22 @@
   <%= @project.subject %>
 </p>
 
-
 <table class="table">
   <thead class="thead-dark">
     <tr>
       <th scope="col">Project</th>
-      <th scope="col">Description</th>
+      <th scope="col">Title</th>
       <th colspan="3"></th>
     </tr>
   </thead>
   <tbody>
-  <%instructionnum = 1%>
-  <% @instructions.each do |instruction|%>
-    <% modalid = "modal-task-#{instruction.id}"%>
+  <%materialnum = 1%>
+  <% @materials.each do |material|%>
+    <% modalid = "modal-task-#{material.id}"%>
     <tr>
-      <td><%=instructionnum%></td>
+      <td><%=materialnum%></td>
       <td>
-        <%=instruction.description%><br>
+        <%=material.title%><br>
       </td>
       <td>
         <div style="display: inline">
@@ -35,9 +34,11 @@
         <div class="modal">
           <label class="modal-bg" for="modal-2"></label>
           <div class="modal-body">
+            <h3><%= material.title %></h3>
             <p>
-              <%= link_to 'Download', instruction.document, download:'' %>
-
+              <% (0..material.photos.count-1).each do |photo| %>
+              <%= image_tag(material.photos[photo], width: 300, height: 200)%>
+              <% end %>
             </p>
           </div>
         </div>
@@ -51,31 +52,31 @@
           <div class="modal">
             <label class="modal-bg" for=<%=modalid%>></label>
             <div class="modal-body">
-              <h1>Edit Instruction for <%= instruction.project.name %></h1>
-              <%= form_with url: "/projects/#{@project.id}/instructions/#{instruction.id}", model: instruction, local: true do |form| %>
+              <h1>Edit Material for <%= material.project.name %></h1>
+              <%= form_with url: "/projects/#{@project.id}/materials/#{material.id}", model: material, local: true do |form| %>
                 <p>
-                  <%= form.label :description %><br>
-                  <%= form.text_area :description, :value => instruction.description, rows: 6, cols: 80 %>
+                  <%= form.label :title %><br>
+                  <%= form.text_field :title, :value => material.title %>
                 </p>
                 <p>
                   <%= form.label :images %><br>
                   <%= form.file_field :images, multiple: true, direct_upload: true %>
                 </p>
                 <p>
-                  <%= form.hidden_field :project_id, :value => instruction.project.id %>
+                  <%= form.hidden_field :project_id, :value => material.project.id %>
                 </p>
                 <p>
                   <%= form.submit %>
                 </p>
               <% end %>
-              <%= link_to 'Back', project_instructions_path %>
+              <%= link_to 'Back', project_materials_path %>
           </div>
         </div>
       </div>
       </td>
-      <td class="edit-options d-none"><%= button_to  "Delete", project_instruction_path(instruction.project_id, instruction.id), method: :delete , data: { confirm: 'Are you sure?' }, class:"paper-btn padding-small" %></td>
+      <td class="edit-options d-none"><%= button_to  "Delete", project_material_path(material.project_id, material.id), method: :delete , data: { confirm: 'Are you sure?' }, class:"paper-btn padding-small" %></td>
     </tr>
-    <%instructionnum += 1%>
+    <%materialnum += 1%>
     <% end %>
   </tbody>
 </table>
@@ -87,14 +88,17 @@
   <div class="modal">
     <label class="modal-bg" for="modal-1"></label>
     <div class="modal-body">
-      <%= render 'instructions/form' %>
+      <%= render 'materials/form' %>
     </div>
   </div>
 
 <div style="display: inline">
-<button id="reveal-edits" >Edit</button>
+  <button id="reveal-edits" >Edit</button>
 </div>
 
 <div style="display: inline">
   <%= link_to 'Back', projects_path %>
 </div>
+
+
+

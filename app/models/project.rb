@@ -3,4 +3,5 @@ class Project < ApplicationRecord
   belongs_to :teacher
   has_many :tasks
   has_many :instructions
+  has_many :materials
 end

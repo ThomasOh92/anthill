@@ -2,11 +2,11 @@
 <%= form_with scope: :instruction, model: instruction, local: true do |form| %>
   <p>
     <%= form.label :description %><br>
-    <%= form.text_field :description %>
+    <%= form.text_area :description %>
   </p>
   <p>
-    <%= form.label :images %><br>
-    <%= form.file_field :images, multiple: true, direct_upload: true %>
+    <%= form.label :document %><br>
+    <%= form.file_field :document, direct_upload: true %>
   </p>
   <p>
     <%= form.hidden_field :project_id, :value => instruction.project.id %>
