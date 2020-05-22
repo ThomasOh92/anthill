@@ -1,16 +1,20 @@
-<h1>PROJECT Tasks#index</h1>
+<%# <h3>PROJECT Tasks#index</h1> %>
 <p id="notice"><%= notice %></p>
-<p>
-  <strong>Name:</strong>
+<div class="row margin flex-edges">
+<h3>
+  <strong>Project:</strong>
   <%= @project.name %>
-</p>
+</h3>
+<div class="paper-btn padding-small"style="font-size:25px" ><strong><%= link_to 'View Instructions', project_path(@project)%></strong></div>
+<div class="paper-btn padding-small" style="font-size:25px"><strong><%= link_to 'View Teacher\'s Comments', project_path(@project)%></strong></div>
 
-<p>
+</div>
+<p class="margin text-large">
   <strong>Subject:</strong>
   <%= @project.subject %>
 </p>
 
-<p>
+<p class="margin margin-top-small text-large">
   <strong>Students:</strong>
   <% @project.students.each do |student| %>
     <span>| </span><%=student.name%>
@@ -18,63 +22,72 @@
   <span> |</span>
 </p>
 
-<p>
+<p class="margin margin-top-small text-large">
   <strong>Teacher-In-Charge:</strong>
   <%= @project.teacher.name %>
 </p>
-
-<table class="table">
+<div class="row margin">
+  <h6><label for="modal-new" class="paper-btn margin-small">Add New Task</label></h6>
+  <h6><label id="reveal-edits" class="paper-btn margin-small">Edit Tasks</label></h6>
+</div>
+<div class="row margin-top-none flex-spaces">
+<table class="table margin border col-5 text-large ">
   <thead class="thead-dark">
     <tr>
-      <th scope="col">No.</th>
-      <th scope="col">Task</th>
+      <th scope="col" style="font-size:25px">No.</th>
+      <th scope="col" style="font-size:25px">Tasks To-Do</th>
       <th  colspan="5"></th>
     </tr>
   </thead>
 <%tasknum = 1%>
-<% @tasks.each do |task|%>
+<% @tasks.where(done:false).each do |task|%>
     <% modalid = "modal-task-#{task.id}"%>
-    <%if task.done%>
-      <tr class="background-primary">
-    <%else%>
-      <tr>
-    <%end%>
-        <td><%=tasknum%></td>
-        <td>
-            <strong class="background-secondary"><%=task.name%></strong><br>
-            <%=task.description%><br>
+    <%# <%if task.done%>
+      <%# <tr class="background-primary"> %>
+    <%# <%else%>
+      <%# <tr> %>
+    <%# <%end%> 
+        <td style="font-size:20px" ><%=tasknum%></td>
+        <td style="font-size:20px">
+            <div class="collapsible">
+              <input id="collapsible-todo<%=tasknum%>" type="checkbox" name="collapsible">
+              <label for="collapsible-todo<%=tasknum%>" style="text-align: left"><%=task.name%></label>
+              <div class="collapsible-body">
+                <span>Description: <%=task.description%><br></span>
+              </div>
+            </div>
         </td>
-        <td class="edit-options d-none">
+        <td class="edit-options d-none" style="font-size:20px">
           <div>
             <div style="display: inline">
-              <label style="line-height: normal" class="paper-btn padding-small" for=<%=modalid%>>Edit</label>
+              <label style="line-height: normal" class="paper-btn btn-secondary padding-small" for=<%=modalid%>>Edit</label>
             </div>
             <input class="modal-state" id=<%=modalid%> type="checkbox">
             <div class="modal">
               <label class="modal-bg" for=<%=modalid%>></label>
               <div class="modal-body">
-                <h1>Edit Task for <%= task.project.name %></h1>
+                <h4>Edit Task for <%= task.project.name %></h4>
                   <%= form_with url: "/projects/#{@project.id}/tasks/#{task.id}", model: task, local: true do |form| %>
-                    <p>
+                    <p class="field margin-bottom-small" style="font-size:15px">
                       <%= form.label :name %><br>
                       <%= form.text_field :name, :value => task.name %>
                     </p>
-                    <p>
+                    <p class="field margin-bottom-small" style="font-size:15px">
                       <%= form.label :description %><br>
                       <%= form.text_field :description, :value => task.description %>
                     </p>
-                    <p>
+                    <p class="field margin-bottom-small" style="font-size:15px">
                       <%= form.label :done? %><br>
                       <%= form.check_box :done %>
                     </p>
                     <p>
                       <%= form.hidden_field :project_id, :value => task.project.id %>
                     </p>
-                    <p>
+                    <p class="field margin-bottom-small" style="font-size:15px">
                       <%= form.submit %>
                     </p>
                   <% end %>
-                  <%= link_to 'Back', projects_path %>
+                  <%# <%= link_to 'Back', project_path(task.project)%>
 
               </div>
             </div>
@@ -82,58 +95,132 @@
           
           <%#= link_to 'Edit', edit_project_task_path(task.project_id, task.id) %>
         </td>
-        <td class="edit-options d-none"><%= button_to  "Delete", project_task_path(task.project_id, task.id), method: :delete , data: { confirm: 'Are you sure?' }, class:"paper-btn padding-small" %></td>
+        <td class="edit-options d-none"><%= button_to "Delete", project_task_path(task.project_id, task.id), method: :delete , data: { confirm: 'Are you sure?' }, class:"paper-btn btn-danger padding-small" %></td>
     </tr>
     <%tasknum += 1%>
     <% end %>
   </tbody>
 </table>
+<table class="table margin border col-5 text-large">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col" style="font-size:25px">No.</th>
+      <th scope="col" style="font-size:25px">Done Tasks</th>
+
+      <th  colspan="5"></th>
+    </tr>
+  </thead>
+<%tasknum = 1%>
+<% @tasks.where(done: true).each do |task|%>
+    <% modalid = "modal-task-#{task.id}"%>
+    <%# <%if task.done%>
+      <%# <tr class="background-primary"> %>
+    <%# <%else%>
+      <%# <tr> %>
+    <%# <%end%> 
+        <td style="font-size:20px"><%=tasknum%></td>
+        <td style="font-size:20px">
+            <div class="collapsible">
+              <input id="collapsible-done<%=tasknum%>" type="checkbox" name="collapsible">
+              <label for="collapsible-done<%=tasknum%>" style="text-align: left"><%=task.name%></label>
+              <div class="collapsible-body">
+                <span>Description: <%=task.description%><br></span>
+              </div>
+            </div>
+        </td>
+        <td class="edit-options d-none">
+          <div>
+            <div style="display: inline">
+              <label style="line-height: normal" class="paper-btn btn-secondary padding-small" for=<%=modalid%>>Edit</label>
+            </div>
+            <input class="modal-state" id=<%=modalid%> type="checkbox">
+            <div class="modal">
+              <label class="modal-bg" for=<%=modalid%>></label>
+              <div class="modal-body">
+                <h4>Edit Task for <%= task.project.name %></h4>
+                  <%= form_with url: "/projects/#{@project.id}/tasks/#{task.id}", model: task, local: true do |form| %>
+                    <p class="field margin-bottom-small" style="font-size:15px">
+                      <%= form.label :name %><br>
+                      <%= form.text_field :name, :value => task.name %>
+                    </p>
+                    <p class="field margin-bottom-small" style="font-size:15px">
+                      <%= form.label :description %><br>
+                      <%= form.text_field :description, :value => task.description %>
+                    </p>
+                    <p class="field margin-bottom-small" style="font-size:15px">
+                      <%= form.label :done? %><br>
+                      <%= form.check_box :done %>
+                    </p>
+                    <p>
+                      <%= form.hidden_field :project_id, :value => task.project.id %>
+                    </p>
+                    <p class="field margin-bottom-small" style="font-size:15px">
+                      <%= form.submit %>
+                    </p>
+                  <% end %>
+                  <%# <%= link_to 'Back', project_path(task.project)%>
+
+              </div>
+            </div>
+          </div>
+          
+          <%#= link_to 'Edit', edit_project_task_path(task.project_id, task.id) %>
+        </td>
+        <td class="edit-options d-none"><%= button_to  "Delete", project_task_path(task.project_id, task.id), method: :delete , data: { confirm: 'Are you sure?' }, class:"paper-btn btn-danger padding-small" %></td>
+    </tr>
+    <%tasknum += 1%>
+    <% end %>
+  </tbody>
+</table>
+</div>
 <br>
  <%if @project.tasks.count !=0%>
       <%totalTasks = @project.tasks.count%>
       <%doneTasks = @project.tasks.where(done:true).count%>
       <%percentDone = (doneTasks.to_f/totalTasks.to_f*100).to_i%>
-       <div class="progress margin-bottom col-10">
+       <div class="row progress col-6" style="height: 35px">
         <% if percentDone != 0%>
-          <div class="bar success w-<%=percentDone%>"><%=percentDone%>% Completed</div>
+          <div class="bar success w-<%=percentDone%>"><h5><%=percentDone%>% Completed</h5></div>
         <% end %>
       </div>
+      <div class="row flex-center">
         <%if percentDone>=25 and percentDone<50%>
-          <h2><span class="badge">Good Start! 👏</span></h2>
+          <h3><div class=" border-dashed"><span class="badge">Good Start! 👏</span></div></h3>
         <%elsif percentDone>=50 and percentDone<75%>
-          <h2><span class="badge warning">Halfway There! ✌</span></h2>
+          <h3><div class=" border-dashed"><span class="badge warning">Halfway There! ✌</span></div></h3>
         <%elsif percentDone>=75 and percentDone<100%>
-          <h2><span class="badge secondary">Just a bit more! 💪</span></h2>
+          <h3><div class=" border-dashed"><span class="badge secondary">Just a bit more! 💪</span></div></h3>
         <%elsif percentDone==100%>
-          <h2><span class="badge success">🌟Awesome! Well Done!🌟</span></h2>
+          <h3><div class=" border-dashed"><span class="badge success">🌟Awesome! Well Done!🌟</span></div></h3>
         <% end %>
+        </div>
       <% end %>
 
 
-  <div style="display: inline">
-    <label class="paper-btn margin" for="modal-1">New</label>
-  </div>
-  <input class="modal-state" id="modal-1" type="checkbox">
+  <%# <div style="display: inline">
+    <label class="paper-btn margin" for="modal-new">Add New Task</label>
+  </div> %>
+  <input class="modal-state" id="modal-new" type="checkbox">
   <div class="modal">
-    <label class="modal-bg" for="modal-1"></label>
+    <label class="modal-bg" for="modal-new"></label>
     <div class="modal-body">
       <%= render 'tasks/form'  %>
     </div>
   </div>
 </div>
-<div style="display: inline"> 
+<%# <div style="display: inline"> 
   <button id="reveal-edits" >Edit</button>
-</div>
+</div> %>
 
 
 
 
 
-<% if teacher_signed_in? %>
-  <span><%= link_to 'Edit', edit_project_path(@project)%></span>
-  <span><%= link_to 'Delete', project_path(@project),
-            method: :delete,
-            data: { confirm: 'Are you sure?' } %></span>
-<% end %>
+<%# <% if teacher_signed_in? %>
+  <%# <span><%= link_to 'Edit', edit_project_path(@project)%>
+  <%# <span><%= link_to 'Delete', project_path(@project), %>
+            <%# method: :delete, %>
+            <%# data: { confirm: 'Are you sure?' } %>
+<%# <% end %>
 
-<%= link_to 'Back', projects_path %>
+<%# <%= link_to 'Back', projects_path %> 
