@@ -1,0 +1,20 @@
+<%= form_with scope: :material, url: project_materials_path, local: true do |form| %>
+
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= form.label :photos %>
+    <%= form.file_field :photos, multiple: true, direct_upload: true %>
+  </div>
+
+  <div class="field">
+    <%= form.hidden_field :project_id, :value => @project.id  %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

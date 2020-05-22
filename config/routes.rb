@@ -6,10 +6,10 @@ Rails.application.routes.draw do
   get 'tasks/edit'
   get 'tasks/new'
 
-  get 'instructions/index'
-  get 'instructions/show'
-  get 'instructions/edit'
-  get 'instructions/new'
+  # get 'instructions/index'
+  # get 'instructions/show'
+  # get 'instructions/edit'
+  # get 'instructions/new'
 
   devise_for :teachers
 
@@ -18,7 +18,9 @@ Rails.application.routes.draw do
   resources :projects do
     resources :tasks
     resources :instructions
+    resources :materials
   end
+
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
