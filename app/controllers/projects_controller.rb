@@ -8,8 +8,11 @@ class ProjectsController < ApplicationController
   def index
     if teacher_signed_in?
       @projects = Project.where(teacher_id: @teacher.id)
+      @current_user = current_teacher
     else
       @projects = @student.projects
+      @current_user = current_student
+
     end
   end
 
@@ -24,6 +27,7 @@ class ProjectsController < ApplicationController
     else
       @project = Project.find(params[:id])
       @teacher
+      @students = Student.all
     end
   end
 
@@ -38,10 +42,12 @@ class ProjectsController < ApplicationController
 
   def create
     @project = Project.new(project_params)
-    params[:student_ids].each do |id|
-      integer_id = id.to_i
-      student = Student.find(integer_id)
-      @project.students << student
+    if params.key?(:student_ids)
+      params[:student_ids].each do |id|
+        integer_id = id.to_i
+        student = Student.find(integer_id)
+        @project.students << student
+      end
     end  
     @teacher
     result = @project.save
@@ -56,6 +62,15 @@ class ProjectsController < ApplicationController
   def update
     @project = Project.find(params[:id])
     @project.update(project_params)
+    @project.students.clear
+    if params.key?(:student_ids)
+      params[:student_ids].each do |id|
+        integer_id = id.to_i
+        student = Student.find(integer_id)
+        @project.students << student
+      end
+      @project.save
+    end  
     redirect_to @project
   end
 

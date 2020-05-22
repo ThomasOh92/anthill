@@ -1,33 +1,32 @@
-<h1>New Project for <%= @teacher.name %></h1>
+<div class = "row margin">
+<h3>New Project for <%= @teacher.name %>'s class</h3>
+</div>
 
 <%= form_with scope: :project, url: projects_path, local: true do |form| %>
- <p>
-    <%= form.label :name %><br>
+ <p class="margin text-large">
+    <%= form.label :name,"Name: "%><br>
     <%= form.text_field :name %>
   </p>
-
-  <p>
-    <%= form.label :subject %><br>
+ <p class="margin text-large">
+    <%= form.label :subject,"Subject: " %><br>
     <%= form.text_field :subject %>
   </p>
-
-
-  <fieldset class="form-group">
-    <legend>Students</legend>
+  <fieldset class="form-group margin">
+    <legend><p class="text-large">Students: </p></legend>
     <% @students.each do |student| %>
-      <label for="student-<%=student.id%>" class="paper-check">
+      <label for="student-<%=student.id%>" class="paper-check text">
         <input type="checkbox" name="student_ids[]" id="student-<%=student.id%>" value=<%=student.id%>> <span><%=student.name%></span>
       </label>
     <% end %>
   </fieldset>
-
+ 
   <p>
     <%= form.hidden_field :teacher_id, :value => @teacher.id %>
   </p>
 
   <p>
-    <%= form.submit %>
+    <%= form.submit "Create Project", :class => "paper-btn margin"%>
   </p>
 <% end %>
 
-<%= link_to 'Back', projects_path %>
+<%= link_to 'Back to Projects', projects_path, class:"margin text-large"%>
