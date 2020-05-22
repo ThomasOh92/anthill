@@ -68,11 +68,15 @@
                   <label for="collapsible-todo<%=tasknum%>" style="text-align: left"><%=task.name%></label>
                   <div class="collapsible-body">
                     <span>Description: <%=task.description%><br></span>
-                    <%# Insert task comments here %>
                     <span>Comments:<br></span>
                     <% @taskcomments.where(task_id: task.id).each do |taskcomment|%>
-                      <span>- <%=taskcomment.comment%><br></span>
+                      <span>
+                        - <%=taskcomment.comment%> 
+                        <%# Edit taskcomment button here %>
+                        <br>
+                      </span> 
                     <%end%>
+                    <%# New taskcomment button here %>
                   </div>
                 </div>
             
@@ -147,6 +151,10 @@
                 <label for="collapsible-done<%=tasknum%>" style="text-align: left"><%=task.name%></label>
                 <div class="collapsible-body">
                   <span>Description: <%=task.description%><br></span>
+                  <span>Comments:<br></span>
+                    <% @taskcomments.where(task_id: task.id).each do |taskcomment|%>
+                      <span>- <%=taskcomment.comment%><br></span>
+                    <%end%>
                 </div>
               </div>
           </td>
