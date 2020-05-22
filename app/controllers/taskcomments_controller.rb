@@ -11,22 +11,22 @@ class TaskcommentsController < ApplicationController
   
     def create
       Taskcomment.create(taskcomment_params)
-      redirect_to project_taskcomments_path
+      redirect_to project_tasks_path
     end
 
     def edit
-      redirect_to project_taskcomments_path
+      redirect_to project_tasks_path
     end
     
     def update
       Taskcomment.find(params[:id]).update(taskcomment_params)
-      redirect_to project_taskcomments_path
+      redirect_to project_tasks_path
     end
   
     def destroy
       @project = Project.find(params[:project_id])
       Taskcomment.find(params[:id]).destroy
-      redirect_to project_taskcomments_path
+      redirect_to project_tasks_path
     end
     
     private
