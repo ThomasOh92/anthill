@@ -70,7 +70,7 @@
                     <span>Description: <%=task.description%><br></span>
                     <%# Comments %>
                     <div>
-                      <label class="paper-btn margin" for=<%="modal-comments-" + task.id.to_s%>>Comments</label>
+                      <label class="paper-btn margin" for=<%="modal-comments-" + task.id.to_s%> style="border-bottom: 2px solid #41403e">Comments</label>
                     </div>
                     <input class="modal-state" id=<%="modal-comments-" + task.id.to_s%> type="checkbox">
                     <div class="modal">
@@ -83,10 +83,9 @@
                             <%# Edit taskcomment button  %>
                             <div class="collapsible" style="display:inline; border:none">
                               <input id=<%="collapsible-edittaskcomment" + taskcomment.id.to_s%> type="checkbox" name="collapsible">
-                              <button class="padding-none"><label for=<%="collapsible-edittaskcomment" + taskcomment.id.to_s%> style="border:none">Edit</label></button>
+                              <button class="padding-none edit-taskcomment-option" style="display:none; border-color: #0071de"><label for=<%="collapsible-edittaskcomment" + taskcomment.id.to_s%> style="border:none; padding: 10px; border-color: #0071de; background-color: #deefff">Edit</label></button>
                             <%# Delete taskcomment button %>
-                                <%= button_to  "Delete", project_taskcomment_path(taskcomment.task.project_id, taskcomment.id), method: :delete , data: { confirm: 'Are you sure?' }, class:"paper-btn padding-small" %>
-
+                                <%= link_to  "Delete", project_taskcomment_path(taskcomment.task.project_id, taskcomment.id), method: :delete , data: { confirm: 'Are you sure?' }, class:"paper-btn padding-small edit-taskcomment-option", style:"display:none; background-color: #f0cbc9; border-color: #a7342d"%>
                             <%# Edit taskcomment form %>  
                             <div class="collapsible-body" style="border:none">
                                <%= form_with scope: :taskcomment, url: "/projects/#{@project.id}/taskcomments/#{taskcomment.id}", model: taskcomment, local: true do |form| %>
@@ -96,27 +95,33 @@
                                 <% end %>
                               </div>
                             </div>
-
-                            <br>
                           </span> 
                           <%end%>
-                          <%# New taskcomment %>
-                          <div class="collapsible" style="border:none">
-                            <input id=<%="collapsible-newtaskcomment" + task.id.to_s%> type="checkbox" name="collapsible">
-                            <button class="padding-none"><label for=<%="collapsible-newtaskcomment" + task.id.to_s%> style="border:none">Add Comment</label></button>
-                            <div class="collapsible-body">
-                              <%= form_for([@project, @taskcomment]) do |form| %>
-                                <%= form.hidden_field(:task_id, value: task.id) %>
-                                <h5>Comment:</h5>
-                                <div class="field">
-                                  <%= form.text_area :comment %>
-                                </div>
-                                <div class="actions">
-                                  <%= form.submit  "Add", style: 'display:block'%>
-                                </div>
-                              <% end %>
+                          <br>
+                          <% if teacher_signed_in? %>
+
+                            <%# Reveal Edit Options %>
+                            <button class="reveal-taskcomment-options">Change</button>
+                            
+                            <%# New taskcomment %>
+                            <div class="collapsible" style="border:none; display:inline">
+                              <input id=<%="collapsible-newtaskcomment" + task.id.to_s%> type="checkbox" name="collapsible">
+                              <button class="padding-none"><label for=<%="collapsible-newtaskcomment" + task.id.to_s%> style="border:none">New</label></button>
+                              <div class="collapsible-body">
+                                <%= form_for([@project, @taskcomment]) do |form| %>
+                                  <%= form.hidden_field(:task_id, value: task.id) %>
+                                  <h5>Comment:</h5>
+                                  <div class="field">
+                                    <%= form.text_area :comment %>
+                                  </div>
+                                  <div class="actions">
+                                    <%= form.submit  "Add", style: 'display:block'%>
+                                  </div>
+                                <% end %>
+                              </div>
                             </div>
-                          </div>
+                           <% end %>
+
                       </div>
                     </div>
                   </div>
@@ -178,8 +183,8 @@
         <th  colspan="5"></th>
       </tr>
     </thead>
-  <%tasknum = 1%>
-  <% @tasks.where(done: true).each do |task|%>
+    <%tasknum = 1%>
+    <% @tasks.where(done: true).each do |task|%>
       <% modalid = "modal-task-#{task.id}"%>
       <%# <%if task.done%>
         <%# <tr class="background-primary"> %>
@@ -193,10 +198,61 @@
                 <label for="collapsible-done<%=tasknum%>" style="text-align: left"><%=task.name%></label>
                 <div class="collapsible-body">
                   <span>Description: <%=task.description%><br></span>
-                  <span>Comments:<br></span>
-                    <% @taskcomments.where(task_id: task.id).each do |taskcomment|%>
-                      <span>- <%=taskcomment.comment%><br></span>
-                    <%end%>
+                    <div>
+                      <label class="paper-btn margin" for=<%="modal-comments-" + task.id.to_s%> style="border-bottom: 2px solid #41403e">Comments</label>
+                    </div>
+                    <input class="modal-state" id=<%="modal-comments-" + task.id.to_s%> type="checkbox">
+                    <div class="modal">
+                      <label class="modal-bg" for=<%="modal-comments-" + task.id.to_s%>></label>
+                      <div class="modal-body">
+                          <% @taskcomments.where(task_id: task.id).each do |taskcomment|%>
+                          <span>
+                            - <%=taskcomment.comment%>
+                            <br>
+                            <%# Edit taskcomment button  %>
+                            <div class="collapsible" style="display:inline; border:none">
+                              <input id=<%="collapsible-edittaskcomment" + taskcomment.id.to_s%> type="checkbox" name="collapsible">
+                              <button class="padding-none edit-taskcomment-option" style="display:none; border-color: #0071de"><label for=<%="collapsible-edittaskcomment" + taskcomment.id.to_s%> style="border:none; padding: 10px; border-color: #0071de; background-color: #deefff">Edit</label></button>
+                            <%# Delete taskcomment button %>
+                                <%= link_to  "Delete", project_taskcomment_path(taskcomment.task.project_id, taskcomment.id), method: :delete , data: { confirm: 'Are you sure?' }, class:"paper-btn padding-small edit-taskcomment-option", style:"display:none; background-color: #f0cbc9; border-color: #a7342d"%>
+                            <%# Edit taskcomment form %>  
+                            <div class="collapsible-body" style="border:none">
+                               <%= form_with scope: :taskcomment, url: "/projects/#{@project.id}/taskcomments/#{taskcomment.id}", model: taskcomment, local: true do |form| %>
+                                  <%= form.hidden_field :id, :value => taskcomment.id %>
+                                  <%= form.text_area :comment, :value => taskcomment.comment%>
+                                  <%= form.submit "Update", style:"display:inline"%>
+                                <% end %>
+                              </div>
+                            </div>
+                          </span> 
+                          <%end%>
+                          <br>
+                          <% if teacher_signed_in? %>
+
+                            <%# Reveal Edit Options %>
+                            <button class="reveal-taskcomment-options">Change</button>
+                            
+                            <%# New taskcomment %>
+                            <div class="collapsible" style="border:none; display:inline">
+                              <input id=<%="collapsible-newtaskcomment" + task.id.to_s%> type="checkbox" name="collapsible">
+                              <button class="padding-none"><label for=<%="collapsible-newtaskcomment" + task.id.to_s%> style="border:none">New</label></button>
+                              <div class="collapsible-body">
+                                <%= form_for([@project, @taskcomment]) do |form| %>
+                                  <%= form.hidden_field(:task_id, value: task.id) %>
+                                  <h5>Comment:</h5>
+                                  <div class="field">
+                                    <%= form.text_area :comment %>
+                                  </div>
+                                  <div class="actions">
+                                    <%= form.submit  "Add", style: 'display:block'%>
+                                  </div>
+                                <% end %>
+                              </div>
+                            </div>
+                           <% end %>
+
+                      </div>
+                    </div>
                 </div>
               </div>
           </td>
@@ -244,7 +300,6 @@
       <% end %>
     </tbody>
   </table>
-
 </div>
 
 <%#  Completion Bar with Badges %>
