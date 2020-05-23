@@ -18,18 +18,15 @@
   <%= @project.subject%>
 </p>
 
-
-<div class="row flex-right margin-right">
-    <h6><label for="modal-new" class="paper-btn margin-small">Add New Instruction</label></h6>
-    <h6><label id="reveal-edits" class="paper-btn margin-small">Edit Instruction</label></h6>
-</div>
-
 <div class="row flex-spaces margin">
+  <div class="row flex-right margin-right">
+      <h6><label for="modal-new" class="paper-btn margin-small">Add New Instruction</label></h6>
+      <h6><label id="reveal-edits" class="paper-btn margin-small">Edit Instruction</label></h6>
+  </div>
   <%instructionnum = 1%>
   <% @project.instructions.each do |instruction|%>
     <div class="border col-8 text-large margin-small text-center">
     <% modalid = "modal-instruction-#{instruction.id}" %>
-      <p style="font-size:20px" ><%=instructionnum%></p>
       <div style="font-size:20px">
           <div class="collapsible row padding-left padding-right">
             <input id="collapsible-todo<%=instructionnum%>" type="checkbox" name="collapsible">
