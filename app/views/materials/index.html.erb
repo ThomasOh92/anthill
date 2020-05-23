@@ -28,16 +28,16 @@
       </td>
       <td>
         <div style="display: inline">
-          <label class="paper-btn margin" for="modal-2">Show</label>
+          <label class="paper-btn margin" for=<%=modalid%>>Show</label>
         </div>
-        <input class="modal-state" id="modal-2" type="checkbox">
+        <input class="modal-state" id=<%=modalid%> type="checkbox">
         <div class="modal">
-          <label class="modal-bg" for="modal-2"></label>
+          <label class="modal-bg" for=<%=modalid%>></label>
           <div class="modal-body">
             <h3><%= material.title %></h3>
             <p>
               <% (0..material.photos.count-1).each do |photo| %>
-              <%= image_tag(material.photos[photo], width: 300, height: 200)%>
+              <%= link_to 'Download', (material.photos[photo]), download: '' %>
               <% end %>
             </p>
           </div>

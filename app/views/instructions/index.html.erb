@@ -17,12 +17,12 @@
   <strong>Subject:</strong>
   <%= @project.subject%>
 </p>
+<div class="row flex-right margin-right">
+    <h6><label for="modal-new" class="paper-btn margin-small">Add New Instruction</label></h6>
+    <h6><label id="reveal-edits" class="paper-btn margin-small">Edit Instruction</label></h6>
+</div>
 
 <div class="row flex-spaces margin">
-  <div class="row flex-right margin-right">
-      <h6><label for="modal-new" class="paper-btn margin-small">Add New Instruction</label></h6>
-      <h6><label id="reveal-edits" class="paper-btn margin-small">Edit Instruction</label></h6>
-  </div>
   <%instructionnum = 1%>
   <% @project.instructions.each do |instruction|%>
     <div class="border col-8 text-large margin-small text-center">
@@ -32,7 +32,7 @@
             <input id="collapsible-todo<%=instructionnum%>" type="checkbox" name="collapsible">
             <label for="collapsible-todo<%=instructionnum%>" style="text-align: left; font-size: 20px; font-weight:normal; line-height: 1.5em"><%=instruction.description%></label>
             <div class="collapsible-body">
-              <%= image_tag(instruction.document, width: 300, height: 200)%>
+              <%= link_to 'Download', instruction.document, download: '' %>
             </div>
           </div>
       </div>
