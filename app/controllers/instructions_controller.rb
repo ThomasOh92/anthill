@@ -4,6 +4,7 @@ class InstructionsController < ApplicationController
   def index
     @project = Project.find(params[:project_id])
     @instruction = Instruction.new
+    @tasks = @project.tasks.order("id")
     @instructions = @project.instructions.order("id")
   end
 

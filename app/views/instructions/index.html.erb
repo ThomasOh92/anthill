@@ -1,34 +1,39 @@
 <p id="notice"><%= notice %></p>
 
 <div class="row margin flex-edges">
-  <h3>
-    <strong>Project:</strong>
-    <%= @project.name %>
-  </h3>
+  <div>
+    <h3>
+      <strong>Project:</strong>
+      <%= @project.name %>
+    </h3>
+  </div>
+
+  <div class="paper-btn padding-small"style="font-size:25px">
+    <strong><%= link_to 'View Project Tasks', project_tasks_path %></strong>
+  </div>
 </div>
+
 <p class="margin text-large">
   <strong>Subject:</strong>
   <%= @project.subject%>
 </p>
-<div>
-  <%= link_to 'Project', project_path(@project) %>
+
+
+<div class="row flex-right margin-right">
+    <h6><label for="modal-new" class="paper-btn margin-small">Add New Instruction</label></h6>
+    <h6><label id="reveal-edits" class="paper-btn margin-small">Edit Instruction</label></h6>
 </div>
 
-<div class="row margin">
-  <h6><label for="modal-new" class="paper-btn margin-small">Add New Instruction</label></h6>
-  <h6><label id="reveal-edits" class="paper-btn margin-small">Edit Instruction</label></h6>
-</div>
-
-<div class="row flex-spaces margin-small">
+<div class="row flex-spaces margin">
   <%instructionnum = 1%>
   <% @project.instructions.each do |instruction|%>
-    <div class="border col-10 text-large margin-small text-center">
+    <div class="border col-8 text-large margin-small text-center">
     <% modalid = "modal-instruction-#{instruction.id}" %>
       <p style="font-size:20px" ><%=instructionnum%></p>
       <div style="font-size:20px">
-          <div class="collapsible row">
+          <div class="collapsible row padding-left padding-right">
             <input id="collapsible-todo<%=instructionnum%>" type="checkbox" name="collapsible">
-            <label for="collapsible-todo<%=instructionnum%>" style="text-align: left; font-size: 18px; font-weight:normal; line-height: 1.5em"><%=instruction.description%></label>
+            <label for="collapsible-todo<%=instructionnum%>" style="text-align: left; font-size: 20px; font-weight:normal; line-height: 1.5em"><%=instruction.description%></label>
             <div class="collapsible-body">
               <%= image_tag(instruction.document, width: 300, height: 200)%>
             </div>
