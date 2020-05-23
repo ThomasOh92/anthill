@@ -23,10 +23,10 @@ class InstructionsController < ApplicationController
     @instruction = Instruction.find(params[:id])
   end
 
-  def show
-    @project = Project.find(params[:project_id])
-    @instructions = @project.instructions.order("id")
-  end
+  # def show
+  #   @project = Project.find(params[:project_id])
+  #   @instructions = @project.instructions.order("id")
+  # end
 
   def update
     @project = Project.find(params[:project_id])

@@ -1,7 +1,10 @@
 class MaterialsController < ApplicationController
+  before_action :authenticate_user!
+
   def index
     @project = Project.find(params[:project_id])
     @material = Material.new
+    @tasks = @project.tasks.order("id")
     @materials = @project.materials.order("id")
   end
 
@@ -16,11 +19,6 @@ class MaterialsController < ApplicationController
   end
 
   def edit
-    @project = Project.find(params[:project_id])
-    @material = Material.find(params[:id])
-  end
-
-  def show
     @project = Project.find(params[:project_id])
     @material = Material.find(params[:id])
   end
@@ -41,7 +39,7 @@ class MaterialsController < ApplicationController
 
   private
     def material_params
-      params.require(:material).permit(:title, :project_id, :photos => [])
+      params.require(:material).permit(:title, :project_id, :photo)
     end
 
     def authenticate_user!
