@@ -5,9 +5,8 @@
   <strong>Project:</strong>
   <%= @project.name %>
 </h3>
-<div class="paper-btn padding-small"style="font-size:25px" ><strong><%= link_to 'View Instructions', project_path(@project)%></strong></div>
+<div class="paper-btn padding-small"style="font-size:25px" ><strong><%= link_to 'View Instructions', project_instruction_path(@project, @instructions)%></strong></div>
 <div class="paper-btn padding-small" style="font-size:25px"><strong><%= link_to 'View Teacher\'s Comments', project_path(@project)%></strong></div>
-
 </div>
 <p class="margin text-large">
   <strong>Subject:</strong>
