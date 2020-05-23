@@ -19,10 +19,10 @@
   <h6><label id="reveal-edits" class="paper-btn margin-small">Edit Instruction</label></h6>
 </div>
 
-<div class="row flex-spaces">
+<div class="row flex-spaces margin-small">
   <%instructionnum = 1%>
   <% @project.instructions.each do |instruction|%>
-    <div class="border col-10 text-large margin text-center">
+    <div class="border col-10 text-large margin-small text-center">
     <% modalid = "modal-instruction-#{instruction.id}" %>
       <p style="font-size:20px" ><%=instructionnum%></p>
       <div style="font-size:20px">
@@ -30,15 +30,13 @@
             <input id="collapsible-todo<%=instructionnum%>" type="checkbox" name="collapsible">
             <label for="collapsible-todo<%=instructionnum%>" style="text-align: left; font-size: 18px; font-weight:normal; line-height: 1.5em"><%=instruction.description%></label>
             <div class="collapsible-body">
-              <p>Nothing here yet</p>
               <%= image_tag(instruction.document, width: 300, height: 200)%>
-
             </div>
           </div>
       </div>
-      <div class="row">
+      <div class="row flex-center">
         <div class="edit-options d-none" style="font-size:20px">
-          <label style="line-height: normal" class="paper-btn btn-secondary padding-small" for=<%=modalid%>>Edit</label>
+          <label style="line-height: normal" class="paper-btn btn-secondary padding-small margin-small" for=<%=modalid%>>Edit</label>
         </div>
         <input class="modal-state" id=<%=modalid%> type="checkbox">
         <div class="modal">
@@ -63,7 +61,7 @@
             <% end %>
           </div>
         </div>
-        <div class="edit-options d-none"><%= button_to  "Delete", project_instruction_path(@project, instruction), method: :delete , data: { confirm: 'Are you sure?' }, class:"paper-btn padding-small" %>
+        <div class="edit-options d-none"><%= button_to  "Delete", project_instruction_path(@project, instruction), method: :delete , data: { confirm: 'Are you sure?' }, class:"paper-btn padding-small margin-small" %>
         </div>
       </div>
     </div>

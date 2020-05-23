@@ -29,7 +29,8 @@ class InstructionsController < ApplicationController
 
   def update
     @project = Project.find(params[:project_id])
-    @instruction = Instruction.find(params[:id].update(instruction_params))
+    @instruction = @project.instructions.find(params[:id])
+    @instruction.update(instruction_params)
 
     redirect_to project_instructions_path, notice: 'Instruction edited.'
   end
