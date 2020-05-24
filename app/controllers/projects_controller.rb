@@ -7,10 +7,23 @@ class ProjectsController < ApplicationController
 
   def index
     if teacher_signed_in?
-      @projects = Project.where(teacher_id: @teacher.id).order(:assignment)
+      @projectsall = Project.where(teacher_id: @teacher.id)
+      if params.key?(:assignment) && params.key?(:subject)
+        if params[:assignment] == "" && params[:subject] == ""
+          @projects = Project.where(teacher_id: @teacher.id).order(:assignment)
+        elsif params[:assignment] == ""
+          @projects = Project.where(teacher_id: @teacher.id, subject: params[:subject]).order(:assignment)
+        elsif params[:subject] == ""
+          @projects = Project.where(teacher_id: @teacher.id, assignment: params[:assignment]).order(:assignment)
+        else
+          @projects = Project.where(teacher_id: @teacher.id, assignment: params[:assignment], subject: params[:subject]).order(:assignment)
+        end
+      else
+        @projects = Project.where(teacher_id: @teacher.id).order(:assignment)
+      end  
       @current_user = current_teacher
     else
-      @projects = @student.projects
+      @projects = @student.projects.order(:subject)
       @current_user = current_student
 
     end
