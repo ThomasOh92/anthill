@@ -7,7 +7,7 @@ class ProjectsController < ApplicationController
 
   def index
     if teacher_signed_in?
-      @projects = Project.where(teacher_id: @teacher.id)
+      @projects = Project.where(teacher_id: @teacher.id).order(:assignment)
       @current_user = current_teacher
     else
       @projects = @student.projects
@@ -28,6 +28,7 @@ class ProjectsController < ApplicationController
       @project = Project.find(params[:id])
       @teacher
       @students = Student.all
+      @projassignments = Project.select(:assignment).distinct
     end
   end
 
@@ -37,6 +38,7 @@ class ProjectsController < ApplicationController
     else
       @teacher
       @students = Student.all
+      @projassignments = Project.select(:assignment).distinct
     end
   end
 
@@ -91,7 +93,7 @@ class ProjectsController < ApplicationController
     end
 
     def project_params
-      params.require(:project).permit(:subject, :name, :teacher_id, :student_ids)
+      params.require(:project).permit(:subject, :name, :teacher_id, :assignment)
     end
 
     def authenticate_user!
