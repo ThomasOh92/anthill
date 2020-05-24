@@ -8,6 +8,7 @@
     </h3>
   </div>
 
+  <div class="paper-btn padding-small"style="font-size:25px" ><strong><%= link_to 'View Instructions', project_instructions_path %></strong></div>
   <div class="paper-btn padding-small"style="font-size:25px">
     <strong><%= link_to 'View Project Tasks', project_tasks_path %></strong>
   </div>
@@ -18,24 +19,28 @@
   <%= @project.subject%>
 </p>
 
+<h3 class="margin text-center">
+  <strong>MATERIALS</strong>
+</h3>
+
 <div class="row flex-right margin-right">
     <h6><label for="modal-new" class="paper-btn margin-small">Add New Material</label></h6>
     <h6><label id="reveal-edits" class="paper-btn margin-small">Edit Material</label></h6>
 </div>
 
-<div class="row flex-left margin">
+<div class="row flex-top flex-left margin">
   <%materialnum = 1%>
   <% @project.materials.each do |material|%>
-    <div class="col border text-large margin text-center">
+    <div class="border margin">
     <% modalid = "modal-material-#{material.id}" %>
-      <div style="font-size:20px">
-        <div class="margin-small">
-          <div class="row flex-center">
+      <div style="font-size:20px; display: inline">
+        <div class="margin-small" >
+          <div class="" >
             <label style="font-size: 20px; font-weight:normal; line-height: 1.5em"><%=material.title%></label>
           </div>
-          <div class="row flex-center">
-            <div class="col align-middle">
-              <p><%= image_tag(material.photo, height: "350px", width: "350px")%></p>
+          <div class="">
+            <div class="">
+              <p><%= image_tag(material.photo, width: "350px")%></p>
             </div>
           </div>
         </div>

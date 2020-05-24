@@ -8,6 +8,7 @@
     </h3>
   </div>
 
+  <div class="paper-btn padding-small"style="font-size:25px" ><strong><%= link_to 'View Materials', project_materials_path %></strong></div>
   <div class="paper-btn padding-small"style="font-size:25px">
     <strong><%= link_to 'View Project Tasks', project_tasks_path %></strong>
   </div>
@@ -17,6 +18,10 @@
   <strong>Subject:</strong>
   <%= @project.subject%>
 </p>
+
+<h3 class="margin text-center">
+  <strong>INSTRUCTIONS</strong>
+</h3>
 
 <div class="row flex-right margin-right">
     <h6><label for="modal-new" class="paper-btn margin-small">Add New Instruction</label></h6>
