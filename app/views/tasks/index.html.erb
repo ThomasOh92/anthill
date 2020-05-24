@@ -48,6 +48,7 @@
       <tr>
         <th scope="col" style="font-size:25px">No.</th>
         <th scope="col" style="font-size:25px">Tasks To-Do</th>
+        <th scope="col" style="font-size:25px">Mark as Done</th>
         <th  colspan="5"></th>
       </tr>
     </thead>
@@ -127,6 +128,18 @@
                   </div>
                 </div>
             
+            
+            </td>
+          <%# Mark Task as Done %>
+            <td>
+                <%= form_with url: "/projects/#{@project.id}/tasks/#{task.id}", model: task, local: true do |form| %>
+                        
+                          <%= form.hidden_field :done, :value => true %>
+                        </p>
+                        <p class="field margin-bottom-small" style="font-size:15px">
+                          <%= form.submit "Done", class: "paper-btn padding-small" %>
+                        </p>
+                      <% end %>
             </td>
             <%# Edit Options - Edit and Delete %>
             <td class="edit-options d-none" style="font-size:20px">
