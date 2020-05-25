@@ -11,9 +11,9 @@ class Instruction < ApplicationRecord
       if !document.blob.content_type.in?(%w(application/pdf))
         document_valid = false
         error_message = 'The document wrong format'
-      elsif document.blob.byte_size > (0.1 * 1024 * 1024) && document.blob.content_type.in?(%w(application/pdf))
+      elsif document.blob.byte_size > (1 * 1024 * 1024) && document.blob.content_type.in?(%w(application/pdf))
         document_valid = false
-        error_message = 'The document oversize limited (0.1MB)'
+        error_message = 'The document oversize limited (1 MB)'
       end
     end
     unless document_valid
