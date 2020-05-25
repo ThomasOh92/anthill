@@ -14,7 +14,7 @@ class InstructionsController < ApplicationController
     if @instruction.save
       redirect_to project_instructions_path, notice: 'Instruction was successfully created.'
     else
-      redirect_to project_instructions_path, alert: "Unable to add note!"
+      redirect_to project_instructions_path, alert: "Unable to add instruction!"
     end
   end
 
