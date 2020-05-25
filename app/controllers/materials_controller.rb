@@ -14,7 +14,8 @@ class MaterialsController < ApplicationController
     if @material.save
       redirect_to project_materials_path, notice: 'Material uploaded.'
     else
-      redirect_to project_materials_path, notice: 'Failed to upload.'
+      # redirect_to project_materials_path, notice: 'Material upload failed.'
+      redirect_to project_materials_path, notice: @material.errors.messages[:photo].split(', ').join(' ')
     end
   end
 

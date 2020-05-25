@@ -2,11 +2,11 @@ class Material < ApplicationRecord
   belongs_to :project
   has_one_attached :photo
 
-  validate :image_validation
+  validate :photo_validation
 
   private
 
-  def image_validation
+  def photo_validation
     if photo.attached?
       if !photo.blob.content_type.in?(%w(image/jpeg image/jpg image/png))
         photo.purge_later

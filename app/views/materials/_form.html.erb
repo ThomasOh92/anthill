@@ -1,5 +1,11 @@
 <%= form_with scope: :material, url: project_materials_path, local: true do |form| %>
 
+  <p class="error">
+    <%= show_errors(@material, :title) %>
+    <%= show_errors(@material, :photo) %>
+    <%= show_errors(@material, :photo_validation) %>
+  </p>
+
   <div class="field">
     <%= form.label :title %>
     <%= form.text_field :title %>

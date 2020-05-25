@@ -1,96 +1,105 @@
-<p id="notice"><%= notice %></p>
-
-<div class="row margin flex-edges">
+<div class="row margin flex-right">
   <div>
-    <h3>
-      <strong>Project:</strong>
-      <%= @project.name %>
-    </h3>
+    <strong><%= link_to 'Materials', project_materials_path, class:"paper-btn", style:"font-size:24px" %>
+    </strong>
   </div>
-
-  <div class="paper-btn padding-small"style="font-size:25px" ><strong><%= link_to 'View Materials', project_materials_path %></strong></div>
-  <div class="paper-btn padding-small"style="font-size:25px">
-    <strong><%= link_to 'View Project Tasks', project_tasks_path %></strong>
+  <div>
+    <strong><%= link_to 'Tasks', project_tasks_path, class:"paper-btn margin-left", style:"margin-right: 35px; font-size: 24px" %>
+    </strong>
   </div>
 </div>
 
-<p class="margin text-large">
-  <strong>Subject:</strong>
-  <%= @project.subject%>
-</p>
+<div class="container" style="min-width: 400px">
+  <h3>
+    <!-- <strong>Project:</strong> -->
+    <%= @project.name %>
+  </h3>
+  <p class="row" style="font-size:25px">
+    <!-- <strong>Subject:</strong> -->
+    <%= @project.subject%>
+  </p>
 
-<h3 class="margin text-center">
-  <strong>INSTRUCTIONS</strong>
-</h3>
+  <br>
 
-<% if teacher_signed_in? %>
-  <div class="row flex-right margin-right">
-      <h6><label for="modal-new" class="paper-btn margin-small">Add New Instruction</label></h6>
-      <h6><label id="reveal-edits" class="paper-btn margin-small">Edit Instruction</label></h6>
-  </div>
+  <h3 class="margin text-center text-secondary">
+    <strong>INSTRUCTIONS</strong>
+  </h3>
+
+  <% if teacher_signed_in? %>
+    <div class="row" style="position: fixed; bottom: 0px; right: 50px; margin: 0; padding: 0">
+        <h6><label for="modal-new" class="paper-btn" style="border-radius: 10px 10px; background-color:lightblue; margin: 3px; font-size:28px; padding:15px 15px">+</label></h6>
+        <h6><label id="reveal-edits" class="paper-btn" style="border-radius: 10px 10px; background-color:pink; margin: 3px; font-size:28px; padding:15px 15px;">Edit</label></h6>
+    </div>
   <% end %>
 
-<div class="row flex-spaces margin">
-  <%instructionnum = 1%>
-  <% @project.instructions.each do |instruction|%>
-    <div class="border col-8 text-large margin-small text-center">
-    <% modalid = "modal-instruction-#{instruction.id}" %>
-      <div style="font-size:20px">
-          <div class="collapsible row padding-left padding-right">
-            <input id="collapsible-todo<%=instructionnum%>" type="checkbox" name="collapsible">
-            <label for="collapsible-todo<%=instructionnum%>" style="text-align: left; font-size: 20px; font-weight:normal; line-height: 1.5em"><%=instruction.description%></label>
-            <div class="collapsible-body">
-            <% if instruction.document.attached? %>
-              <%= link_to 'Download', instruction.document, download: '' %>
-            <% else %>
-              <p>no attachment</p>
-            <% end %>
+  <br>
+
+  <div class="text-center">
+    <p id="notice" style="font-size: 24px; color:red;"><%= notice %></p>
+  </div>
+
+  <div class="row flex-center">
+    <%instructionnum = 1%>
+    <% @project.instructions.each do |instruction|%>
+      <div class="border col-8 margin-top">
+      <% modalid = "modal-instruction-#{instruction.id}" %>
+        <div style="font-size:20px">
+            <div class="collapsible row padding-left padding-right">
+              <input id="collapsible-todo<%=instructionnum%>" type="checkbox" name="collapsible">
+              <label for="collapsible-todo<%=instructionnum%>" style="text-align: left; font-size: 20px; font-weight:normal; line-height: 1.5em"><%=instruction.description%></label>
+              <div class="collapsible-body text-center">
+              <% if instruction.document.attached? %>
+                <%= link_to 'Download', instruction.document, download: '' %>
+              <% else %>
+                <p>no attachment</p>
+              <% end %>
+              </div>
+            </div>
+        </div>
+        <div class="row flex-center">
+          <div class="edit-options d-none" style="font-size:20px">
+            <div >
+              <label class="paper-btn btn-secondary padding-small margin-small" style="line-height: normal" for=<%=modalid%>>Edit</label>
             </div>
           </div>
-      </div>
-      <div class="row flex-center">
-        <div class="edit-options d-none" style="font-size:20px">
-          <label style="line-height: normal" class="paper-btn btn-secondary padding-small margin-small" for=<%=modalid%>>Edit</label>
-        </div>
-        <input class="modal-state" id=<%=modalid%> type="checkbox">
-        <div class="modal">
-          <label class="modal-bg" for=<%=modalid%>></label>
-          <div class="modal-body">
-            <h4>Edit Instruction for <%= instruction.project.name %></h4>
-            <%= form_with url: "/projects/#{@project.id}/instructions/#{instruction.id}", model: instruction, local: true do |form| %>
-              <p class="field margin-bottom-small" style="font-size:15px">
-                <%= form.label :description %><br>
-                <%= form.text_area :description, :value => instruction.description, class:"no-resize", rows: 6, cols: 80 %>
-              </p>
-              <p class="field margin-bottom-small" style="font-size:15px">
-                <%= form.label :document %><br>
-                <%= form.file_field :document, direct_upload: true, accept: "application/pdf" %>
-              </p>
-              <p>
-                <%= form.hidden_field :project_id, :value => instruction.project.id %>
-              </p>
-              <p class="field margin-bottom-small" style="font-size:15px">
-                <%= form.submit %>
-              </p>
-            <% end %>
+          <input class="modal-state" id=<%=modalid%> type="checkbox">
+          <div class="modal">
+            <label class="modal-bg" for=<%=modalid%>></label>
+            <div class="modal-body">
+              <h4>Edit Instruction for <%= instruction.project.name %></h4>
+              <%= form_with url: "/projects/#{@project.id}/instructions/#{instruction.id}", model: instruction, local: true do |form| %>
+                <p class="field margin-bottom-small" style="font-size:15px">
+                  <%= form.label :description %><br>
+                  <%= form.text_area :description, :value => instruction.description, class:"no-resize", rows: 6, cols: 80 %>
+                </p>
+                <p class="field margin-bottom-small" style="font-size:15px">
+                  <%= form.label :document %><br>
+                  <%= form.file_field :document, direct_upload: true, accept: "application/pdf" %>
+                </p>
+                <p>
+                  <%= form.hidden_field :project_id, :value => instruction.project.id %>
+                </p>
+                <p class="field margin-bottom-small" style="font-size:15px">
+                  <%= form.submit %>
+                </p>
+              <% end %>
+            </div>
+          </div>
+          <div class="edit-options d-none"><%= button_to  "Delete", project_instruction_path(@project, instruction), method: :delete , data: { confirm: 'Are you sure?' }, class:"paper-btn btn-danger padding-small margin-small" %>
           </div>
         </div>
-        <div class="edit-options d-none"><%= button_to  "Delete", project_instruction_path(@project, instruction), method: :delete , data: { confirm: 'Are you sure?' }, class:"paper-btn padding-small margin-small" %>
-        </div>
       </div>
-    </div>
-  <%instructionnum += 1%>
-  <% end %>
-</div>
-
-
-
-<input class="modal-state" id="modal-new" type="checkbox">
-<div class="modal">
-  <label class="modal-bg" for="modal-new"></label>
-  <div class="modal-body">
-    <%= render 'instructions/form'  %>
+    <%instructionnum += 1%>
+    <% end %>
   </div>
-</div>
 
-<%= javascript_include_tag 'projects' %>
+  <input class="modal-state" id="modal-new" type="checkbox">
+  <div class="modal">
+    <label class="modal-bg" for="modal-new"></label>
+    <div class="modal-body">
+      <%= render 'instructions/form'  %>
+    </div>
+  </div>
+
+</div>
+  <%= javascript_include_tag 'projects' %>
