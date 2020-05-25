@@ -1,7 +1,7 @@
 class Project < ApplicationRecord
-  has_and_belongs_to_many :students
+  has_and_belongs_to_many :students 
   belongs_to :teacher
-  has_many :tasks
-  has_many :instructions
-  has_many :materials
+  has_many :tasks, dependent: :destroy 
+  has_many :instructions, dependent: :destroy 
+  has_many :materials, dependent: :destroy 
 end

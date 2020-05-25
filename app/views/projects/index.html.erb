@@ -9,6 +9,8 @@
   <%if @projects.empty?%>
     <h3>No projects to show</h3>
   <%else%>
+        <div class="row flex-left margin-none">
+
       <h3 style="margin: 0 20px 0 0">Projects</h3>  
       <%# Sort Form %>
         <label for="modal-sort" class="paper-btn" style="padding: 0.5rem; font-family: 'Neucha'">Sort By</label>
@@ -30,14 +32,14 @@
         </div>
       </div>
 
+    </div>
 
-
-    <div class= "row margin flex-left">
+    <div class= "row flex-left">
     <% @projects.select(:assignment).distinct.each do |project| %>
-      <div style="display:block">
-      <h4 style="margin-bottom: 0; margin-top:10px"><%=project.assignment%></h4>
+      <div class= "row margin flex-left col-12">
+      <div class= "col-12"><h4 style="margin-bottom: 20px; margin-top:10px"><%=project.assignment%></h4></div>
       <br>
-        <div class="row flex-left">
+        <div class="row flex-left col-12 margin-none">
           <% @projects.where(assignment: project.assignment).each do |proj| %>
               <div class="card border" style="width: 20rem;">
                 <div class="card-body">
@@ -62,11 +64,9 @@
     <% end %>
     </div>
   <%end%>
-  <br/>
   </div>
 
 
-  <br/>
   </div>
 
   <div class= "row margin ">
@@ -86,48 +86,48 @@
     <%if @projects.empty?%>
       <h3>No projects to show</h3>
     <%else%>
-      <h3 style="margin: 0 20px 0 0">Projects</h3>
-        
-      <%# Sort Form %>
-      <label for="modal-sort" class="paper-btn" style="padding: 0.5rem; font-family: 'Neucha'">Sort By</label>
-      <input class="modal-state" id="modal-sort" type="checkbox">
-      <div class="modal">
-        <label class="modal-bg" for="modal-sort"></label>
-        <div class="modal-body">
-            <%= form_tag projects_path, method: :get do %>
-              
-              <p style="font-size: 20px"><label for="subject">Subject</label>
-              <%= select_tag "subject", options_for_select(@projectsall.map{|a| a.subject}.uniq), {include_blank: "All"} %></p>
+      <div class="row flex-left margin-none">
+        <h3 style="margin: 0 20px 0 0">Projects</h3>
+        <%# Sort Form %>
+        <label for="modal-sort" class="paper-btn" style="padding: 0.5rem; font-family: 'Neucha'">Sort By</label>
+        <input class="modal-state" id="modal-sort" type="checkbox">
+        <div class="modal">
+          <label class="modal-bg" for="modal-sort"></label>
+          <div class="modal-body">
+              <%= form_tag projects_path, method: :get do %>
+                
+                <p style="font-size: 20px"><label for="subject">Subject</label>
+                <%= select_tag "subject", options_for_select(@projectsall.map{|a| a.subject}.uniq), {include_blank: "All"} %></p>
 
-              <p><%= submit_tag "Search", name: nil, style: "padding: 0.5rem", class:"paper-btn" %></p>   
-            <% end %>
+                <p><%= submit_tag "Search", name: nil, style: "padding: 0.5rem", class:"paper-btn" %></p>   
+              <% end %>
 
+          </div>
         </div>
       </div>
-
       <%# Index of Projects %>
-      <div class= "row margin flex-left">
+      <div class= "row flex-left col-12">
         <% @projects.select(:subject).distinct.each do |project| %>
-          <div style="display:block">
-          <h4 style="margin-bottom: 0; margin-top:10px"><%=project.subject%></h4>
-          <br>
-            <div class="row flex-left">
-              <% @projects.where(subject: project.subject).each do |proj| %>
-                  <div class="card border" style="width: 20rem;">
-                    <div class="card-body">
-                      <h4 class="card-title"><%= proj.name %></h4>
-                      <h5 class="card-subtitle">Assignment: <%=proj.assignment%></h5>
-                      <p class="card-text text-medium"><strong>Students: </strong>
-                            <% proj.students.each do |student| %>
-                              <span>| </span><%=student.name%>
-                            <%end%>
-                            <span> |</span></p>
-                      <%= link_to 'View', proj ,class:"card-link text-large"%>
+          <div class="row flex-left margin col-12">
+            <div class="col-12"><h4 style="margin-bottom: 0; margin-top:10px"><%=project.subject%></h4>
+            <br></div>
+              <div class="col-12">
+                <% @projects.where(subject: project.subject).each do |proj| %>
+                    <div class="card border" style="width: 20rem;">
+                      <div class="card-body">
+                        <h4 class="card-title"><%= proj.name %></h4>
+                        <h5 class="card-subtitle">Assignment: <%=proj.assignment%></h5>
+                        <p class="card-text text-medium"><strong>Students: </strong>
+                              <% proj.students.each do |student| %>
+                                <span>| </span><%=student.name%>
+                              <%end%>
+                              <span> |</span></p>
+                        <%= link_to 'View', proj ,class:"card-link text-large"%>
+                      </div>
                     </div>
-                  </div>
-              <%end%>
-            </div>
-          <br>
+                <%end%>
+              </div>
+            <br>
           </div>
         <% end %>
       </div>
