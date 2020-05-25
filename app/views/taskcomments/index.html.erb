@@ -18,19 +18,9 @@
         <label class="modal-bg" for=<%=taskcomment.id%>></label>
         <div class="modal-body">
             <%= form_with scope: :taskcomment, url: "/projects/#{@project.id}/taskcomments/#{taskcomment.id}", model: taskcomment, local: true do |form| %>
-
-              <p>
-                <%= form.hidden_field :id, :value => taskcomment.id %>
-              </p>
-              <p>
-                <%= form.text_field :comment, :value => taskcomment.comment %>
-              </p>
-              <%# <p>
-                <%= hidden_field :project_id, :value => taskcomment.task.project.id %>
-              
-              <p>
-                <%= form.submit "Update"%>
-              </p>
+              <p><%= form.hidden_field :id, :value => taskcomment.id %></p>
+              <p><%= form.text_field :comment, :value => taskcomment.comment %></p>
+              <p><%= form.submit "Update"%></p>
             <% end %>
         </div>
       </div>

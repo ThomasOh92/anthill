@@ -4,7 +4,9 @@ class TasksController < ApplicationController
   def index
     @project = Project.find(params[:project_id])
     @task = Task.new
+    @taskcomment = Taskcomment.new 
     @tasks = @project.tasks.order("id")
+    @taskcomments = Taskcomment.all
     @instructions = @project.instructions.order("id")
   end
 

@@ -19,4 +19,30 @@ window.onload = function(){
         }
     }
     revealButton.addEventListener('click', revealEdits)
+    
+    let revealTaskCommentButtons = document.getElementsByClassName("reveal-taskcomment-options");
+    let taskCommentEditsHidden = true;
+
+    let revealTaskCommentEdits = function(){
+        if (taskCommentEditsHidden){
+            let taskCommentData = document.getElementsByClassName("edit-taskcomment-option");
+            for (let a of taskCommentData){
+                //a.classList.remove('d-none')
+                a.style.display = "inline"
+            }
+            taskCommentEditsHidden = false;
+        } else {
+            let taskCommentData = document.getElementsByClassName("edit-taskcomment-option");
+            for (let a of taskCommentData){
+                //a.classList.add('d-none')
+                a.style.display = "none"
+            }
+            taskCommentEditsHidden = true;
+        }
+    }
+
+
+    for (let el of revealTaskCommentButtons){
+        el.addEventListener('click', revealTaskCommentEdits)
+    }
 }

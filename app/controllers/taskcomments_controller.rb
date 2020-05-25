@@ -2,31 +2,32 @@ class TaskcommentsController < ApplicationController
     before_action :authenticate_user!
   
     def index
-      @project = Project.find(params[:project_id])
-      @taskcomment = Taskcomment.new      
-      @taskcomments = Taskcomment.all.order("task_id").select do |taskcomment|
-         @project.tasks.include?(taskcomment.task) 
-      end       
+      # @project = Project.find(params[:project_id])
+      # @taskcomment = Taskcomment.new      
+      # @taskcomments = Taskcomment.all.order("task_id").select do |taskcomment|
+      #    @project.tasks.include?(taskcomment.task) 
+      # end
+      redirect_to project_tasks_path
     end
   
     def create
       Taskcomment.create(taskcomment_params)
-      redirect_to project_taskcomments_path
+      redirect_to project_tasks_path
     end
 
     def edit
-      redirect_to project_taskcomments_path
+      redirect_to project_tasks_path
     end
     
     def update
       Taskcomment.find(params[:id]).update(taskcomment_params)
-      redirect_to project_taskcomments_path
+      redirect_to project_tasks_path
     end
   
     def destroy
       @project = Project.find(params[:project_id])
       Taskcomment.find(params[:id]).destroy
-      redirect_to project_taskcomments_path
+      redirect_to project_tasks_path
     end
     
     private

@@ -1,18 +1,20 @@
 <%# <h3>PROJECT Tasks#index</h1> %>
+
+<%# Top Bar - First part with relevant links %>
 <p id="notice"><%= notice %></p>
 <div class="row margin flex-edges">
-<h3>
-  <strong>Project:</strong>
-  <%= @project.name %>
-</h3>
-<div class="paper-btn padding-small"style="font-size:25px" ><strong><%= link_to 'View Instructions', project_instructions_path %></strong></div>
-<div class="paper-btn padding-small" style="font-size:25px"><strong><%= link_to 'View Teacher\'s Comments', project_path(@project)%></strong></div>
+  <h3>
+    <strong>Project:</strong>
+    <%= @project.name %>
+  </h3>
+<div class="paper-btn padding-small"style="font-size:25px" ><strong><%= link_to 'View Instructions / Materials', project_instructions_path %></strong></div>
 </div>
+
+<%# Details on Project - Subject, Students, TeacherinCharge %>
 <p class="margin text-large">
   <strong>Subject:</strong>
   <%= @project.subject %>
 </p>
-
 <p class="margin margin-top-small text-large">
   <strong>Students:</strong>
   <% @project.students.each do |student| %>
@@ -20,158 +22,306 @@
   <%end%>
   <span> |</span>
 </p>
-
 <p class="margin margin-top-small text-large">
   <strong>Teacher-In-Charge:</strong>
   <%= @project.teacher.name %>
 </p>
+
+<%# Buttons for adding new tasks, editing current tasks %>
 <div class="row margin">
-  <h6><label for="modal-new" class="paper-btn margin-small">Add New Task</label></h6>
-  <h6><label id="reveal-edits" class="paper-btn margin-small">Edit Tasks</label></h6>
+  <p><label for="modal-new" class="paper-btn margin-small">Add New Task</label></p>
+  <input class="modal-state" id="modal-new" type="checkbox">
+  <div class="modal">
+    <label class="modal-bg" for="modal-new"></label>
+    <div class="modal-body">
+      <%= render 'tasks/form'  %>
+    </div>
+  </div>
+  <p><label id="reveal-edits" class="paper-btn margin-small">Edit Tasks</label></p>
 </div>
+
+<%# Tables with tasks %>
 <div class="row margin-top-none flex-spaces">
-<table class="table margin border col-5 text-large ">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col" style="font-size:25px">No.</th>
-      <th scope="col" style="font-size:25px">Tasks To-Do</th>
-      <th  colspan="5"></th>
-    </tr>
-  </thead>
-<%tasknum = 1%>
-<% @tasks.where(done:false).each do |task|%>
-    <% modalid = "modal-task-#{task.id}"%>
-    <%# <%if task.done%>
-      <%# <tr class="background-primary"> %>
-    <%# <%else%>
-      <%# <tr> %>
-    <%# <%end%>
-        <td style="font-size:20px" ><%=tasknum%></td>
-        <td style="font-size:20px">
-            <div class="collapsible">
-              <input id="collapsible-todo<%=tasknum%>" type="checkbox" name="collapsible">
-              <label for="collapsible-todo<%=tasknum%>" style="text-align: left"><%=task.name%></label>
-              <div class="collapsible-body">
-                <span>Description: <%=task.description%><br></span>
+  <%# Table for tasks to be done %>
+  <table class="table margin border col-5 text-large ">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col" style="font-size:25px">No.</th>
+        <th scope="col" style="font-size:25px">Tasks To-Do</th>
+        <th scope="col" style="font-size:25px">Mark as Done</th>
+        <th  colspan="5"></th>
+      </tr>
+    </thead>
+    <%tasknum = 1%>
+    <tbody>
+    <% @tasks.where(done:false).each do |task|%>
+        <% modalid = "modal-task-#{task.id}"%>
+        <%# <%if task.done%>
+          <%# <tr class="background-primary"> %>
+        <%# <%else%>
+          <%# <tr> %>
+        <%# <%end%>
+            <%# Numbering, Task Name, and Task Description %>
+            <td style="font-size:20px" ><%=tasknum%></td>
+            <td style="font-size:20px">
+                <div class="collapsible">
+                  <input id="collapsible-todo<%=tasknum%>" type="checkbox" name="collapsible">
+                  <label for="collapsible-todo<%=tasknum%>" style="text-align: left"><%=task.name%></label>
+                  <div class="collapsible-body">
+                    <span>Description: <%=task.description%><br></span>
+                    <%# Comments %>
+                    <div>
+                      <label class="paper-btn margin" for=<%="modal-comments-" + task.id.to_s%> style="border-bottom: 2px solid #41403e">Comments</label>
+                    </div>
+                    <input class="modal-state" id=<%="modal-comments-" + task.id.to_s%> type="checkbox">
+                    <div class="modal">
+                      <label class="modal-bg" for=<%="modal-comments-" + task.id.to_s%>></label>
+                      <div class="modal-body">
+                          <% if @taskcomments.where(task_id: task.id).empty?%>
+                          No Comments
+                          <%end%>
+                          <% @taskcomments.where(task_id: task.id).each do |taskcomment|%>
+                          <span>
+                            - <%=taskcomment.comment%>
+                            <br>
+                            <%# Edit taskcomment button  %>
+                            <div class="collapsible" style="display:inline; border:none">
+                              <input id=<%="collapsible-edittaskcomment" + taskcomment.id.to_s%> type="checkbox" name="collapsible">
+                              <button class="padding-none edit-taskcomment-option" style="display:none; border-color: #0071de"><label for=<%="collapsible-edittaskcomment" + taskcomment.id.to_s%> style="border:none; padding: 10px; border-color: #0071de; background-color: #deefff">Edit</label></button>
+                            <%# Delete taskcomment button %>
+                                <%= link_to  "Delete", project_taskcomment_path(taskcomment.task.project_id, taskcomment.id), method: :delete , data: { confirm: 'Are you sure?' }, class:"paper-btn padding-small edit-taskcomment-option", style:"display:none; background-color: #f0cbc9; border-color: #a7342d"%>
+                            <%# Edit taskcomment form %>  
+                            <div class="collapsible-body" style="border:none">
+                               <%= form_with scope: :taskcomment, url: "/projects/#{@project.id}/taskcomments/#{taskcomment.id}", model: taskcomment, local: true do |form| %>
+                                  <%= form.hidden_field :id, :value => taskcomment.id %>
+                                  <%= form.text_area :comment, :value => taskcomment.comment%>
+                                  <%= form.submit "Update", style:"display:inline"%>
+                                <% end %>
+                              </div>
+                            </div>
+                          </span> 
+                          <%end%>
+                          <br>
+                          <% if teacher_signed_in? %>
+
+                            <%# Reveal Edit Options %>
+                            <button class="reveal-taskcomment-options">Change</button>
+                            
+                            <%# New taskcomment %>
+                            <div class="collapsible" style="border:none; display:inline">
+                              <input id=<%="collapsible-newtaskcomment" + task.id.to_s%> type="checkbox" name="collapsible">
+                              <button class="padding-none"><label for=<%="collapsible-newtaskcomment" + task.id.to_s%> style="border:none">New</label></button>
+                              <div class="collapsible-body">
+                                <%= form_for([@project, @taskcomment]) do |form| %>
+                                  <%= form.hidden_field(:task_id, value: task.id) %>
+                                  <h5>Comment:</h5>
+                                  <div class="field">
+                                    <%= form.text_area :comment %>
+                                  </div>
+                                  <div class="actions">
+                                    <%= form.submit  "Add", style: 'display:block'%>
+                                  </div>
+                                <% end %>
+                              </div>
+                            </div>
+                           <% end %>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            
+            
+            </td>
+          <%# Mark Task as Done %>
+            <td>
+                <%= form_with url: "/projects/#{@project.id}/tasks/#{task.id}", model: task, local: true do |form| %>
+                        
+                          <%= form.hidden_field :done, :value => true %>
+                        </p>
+                        <p class="field margin-bottom-small" style="font-size:15px">
+                          <%= form.submit "Done", class: "paper-btn padding-small" %>
+                        </p>
+                      <% end %>
+            </td>
+            <%# Edit Options - Edit and Delete %>
+            <td class="edit-options d-none" style="font-size:20px">
+              <div>
+                <div style="display: inline">
+                  <label style="line-height: normal" class="paper-btn btn-secondary padding-small" for=<%=modalid%>>Edit</label>
+                </div>
+                <input class="modal-state" id=<%=modalid%> type="checkbox">
+                <div class="modal">
+                  <label class="modal-bg" for=<%=modalid%>></label>
+                  <div class="modal-body">
+                    <h4>Edit Task for <%= task.project.name %></h4>
+                      <%= form_with url: "/projects/#{@project.id}/tasks/#{task.id}", model: task, local: true do |form| %>
+                        <p class="field margin-bottom-small" style="font-size:15px">
+                          <%= form.label :name %><br>
+                          <%= form.text_field :name, :value => task.name %>
+                        </p>
+                        <p class="field margin-bottom-small" style="font-size:15px">
+                          <%= form.label :description %><br>
+                          <%= form.text_field :description, :value => task.description %>
+                        </p>
+                        <p class="field margin-bottom-small" style="font-size:15px">
+                          <%= form.label :done? %><br>
+                          <%= form.check_box :done %>
+                        </p>
+                        <p>
+                          <%= form.hidden_field :project_id, :value => task.project.id %>
+                        </p>
+                        <p class="field margin-bottom-small" style="font-size:15px">
+                          <%= form.submit %>
+                        </p>
+                      <% end %>
+                      <%# <%= link_to 'Back', project_path(task.project)%>
+
+                  </div>
+                </div>
+              </div>
+
+              <%#= link_to 'Edit', edit_project_task_path(task.project_id, task.id) %>
+            </td>
+            <td class="edit-options d-none"><%= button_to "Delete", project_task_path(task.project_id, task.id), method: :delete , data: { confirm: 'Are you sure?' }, class:"paper-btn btn-danger padding-small" %></td>
+        </tr>
+        <%tasknum += 1%>
+        <% end %>
+    </tbody>
+  </table>
+  <%# Table for completed tasks %>
+  <table class="table margin border col-5 text-large">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col" style="font-size:25px">No.</th>
+        <th scope="col" style="font-size:25px">Done Tasks</th>
+
+        <th  colspan="5"></th>
+      </tr>
+    </thead>
+    <%tasknum = 1%>
+    <% @tasks.where(done: true).each do |task|%>
+      <% modalid = "modal-task-#{task.id}"%>
+      <%# <%if task.done%>
+        <%# <tr class="background-primary"> %>
+      <%# <%else%>
+        <%# <tr> %>
+      <%# <%end%>
+          <td style="font-size:20px"><%=tasknum%></td>
+          <td style="font-size:20px">
+              <div class="collapsible">
+                <input id="collapsible-done<%=tasknum%>" type="checkbox" name="collapsible">
+                <label for="collapsible-done<%=tasknum%>" style="text-align: left"><%=task.name%></label>
+                <div class="collapsible-body">
+                  <span>Description: <%=task.description%><br></span>
+                    <div>
+                      <label class="paper-btn margin" for=<%="modal-comments-" + task.id.to_s%> style="border-bottom: 2px solid #41403e">Comments</label>
+                    </div>
+                    <input class="modal-state" id=<%="modal-comments-" + task.id.to_s%> type="checkbox">
+                    <div class="modal">
+                      <label class="modal-bg" for=<%="modal-comments-" + task.id.to_s%>></label>
+                      <div class="modal-body">
+                      <% if @taskcomments.where(task_id: task.id).empty?%>
+                          No Comments
+                          <%end%>
+                          <% @taskcomments.where(task_id: task.id).each do |taskcomment|%>
+                          <span>
+                            - <%=taskcomment.comment%>
+                            <br>
+                            <%# Edit taskcomment button  %>
+                            <div class="collapsible" style="display:inline; border:none">
+                              <input id=<%="collapsible-edittaskcomment" + taskcomment.id.to_s%> type="checkbox" name="collapsible">
+                              <button class="padding-none edit-taskcomment-option" style="display:none; border-color: #0071de"><label for=<%="collapsible-edittaskcomment" + taskcomment.id.to_s%> style="border:none; padding: 10px; border-color: #0071de; background-color: #deefff">Edit</label></button>
+                            <%# Delete taskcomment button %>
+                                <%= link_to  "Delete", project_taskcomment_path(taskcomment.task.project_id, taskcomment.id), method: :delete , data: { confirm: 'Are you sure?' }, class:"paper-btn padding-small edit-taskcomment-option", style:"display:none; background-color: #f0cbc9; border-color: #a7342d"%>
+                            <%# Edit taskcomment form %>  
+                            <div class="collapsible-body" style="border:none">
+                               <%= form_with scope: :taskcomment, url: "/projects/#{@project.id}/taskcomments/#{taskcomment.id}", model: taskcomment, local: true do |form| %>
+                                  <%= form.hidden_field :id, :value => taskcomment.id %>
+                                  <%= form.text_area :comment, :value => taskcomment.comment%>
+                                  <%= form.submit "Update", style:"display:inline"%>
+                                <% end %>
+                              </div>
+                            </div>
+                          </span> 
+                          <%end%>
+                          <br>
+                          <% if teacher_signed_in? %>
+
+                            <%# Reveal Edit Options %>
+                            <button class="reveal-taskcomment-options">Change</button>
+                            
+                            <%# New taskcomment %>
+                            <div class="collapsible" style="border:none; display:inline">
+                              <input id=<%="collapsible-newtaskcomment" + task.id.to_s%> type="checkbox" name="collapsible">
+                              <button class="padding-none"><label for=<%="collapsible-newtaskcomment" + task.id.to_s%> style="border:none">New</label></button>
+                              <div class="collapsible-body">
+                                <%= form_for([@project, @taskcomment]) do |form| %>
+                                  <%= form.hidden_field(:task_id, value: task.id) %>
+                                  <h5>Comment:</h5>
+                                  <div class="field">
+                                    <%= form.text_area :comment %>
+                                  </div>
+                                  <div class="actions">
+                                    <%= form.submit  "Add", style: 'display:block'%>
+                                  </div>
+                                <% end %>
+                              </div>
+                            </div>
+                           <% end %>
+
+                      </div>
+                    </div>
+                </div>
+              </div>
+          </td>
+          <td class="edit-options d-none">
+            <div>
+              <div style="display: inline">
+                <label style="line-height: normal" class="paper-btn btn-secondary padding-small" for=<%=modalid%>>Edit</label>
+              </div>
+              <input class="modal-state" id=<%=modalid%> type="checkbox">
+              <div class="modal">
+                <label class="modal-bg" for=<%=modalid%>></label>
+                <div class="modal-body">
+                  <h4>Edit Task for <%= task.project.name %></h4>
+                    <%= form_with url: "/projects/#{@project.id}/tasks/#{task.id}", model: task, local: true do |form| %>
+                      <p class="field margin-bottom-small" style="font-size:15px">
+                        <%= form.label :name %><br>
+                        <%= form.text_field :name, :value => task.name %>
+                      </p>
+                      <p class="field margin-bottom-small" style="font-size:15px">
+                        <%= form.label :description %><br>
+                        <%= form.text_field :description, :value => task.description %>
+                      </p>
+                      <p class="field margin-bottom-small" style="font-size:15px">
+                        <%= form.label :done? %><br>
+                        <%= form.check_box :done %>
+                      </p>
+                      <p>
+                        <%= form.hidden_field :project_id, :value => task.project.id %>
+                      </p>
+                      <p class="field margin-bottom-small" style="font-size:15px">
+                        <%= form.submit %>
+                      </p>
+                    <% end %>
+                    <%# <%= link_to 'Back', project_path(task.project)%>
+
+                </div>
               </div>
             </div>
-        </td>
-        <td class="edit-options d-none" style="font-size:20px">
-          <div>
-            <div style="display: inline">
-              <label style="line-height: normal" class="paper-btn btn-secondary padding-small" for=<%=modalid%>>Edit</label>
-            </div>
-            <input class="modal-state" id=<%=modalid%> type="checkbox">
-            <div class="modal">
-              <label class="modal-bg" for=<%=modalid%>></label>
-              <div class="modal-body">
-                <h4>Edit Task for <%= task.project.name %></h4>
-                  <%= form_with url: "/projects/#{@project.id}/tasks/#{task.id}", model: task, local: true do |form| %>
-                    <p class="field margin-bottom-small" style="font-size:15px">
-                      <%= form.label :name %><br>
-                      <%= form.text_field :name, :value => task.name %>
-                    </p>
-                    <p class="field margin-bottom-small" style="font-size:15px">
-                      <%= form.label :description %><br>
-                      <%= form.text_field :description, :value => task.description %>
-                    </p>
-                    <p class="field margin-bottom-small" style="font-size:15px">
-                      <%= form.label :done? %><br>
-                      <%= form.check_box :done %>
-                    </p>
-                    <p>
-                      <%= form.hidden_field :project_id, :value => task.project.id %>
-                    </p>
-                    <p class="field margin-bottom-small" style="font-size:15px">
-                      <%= form.submit %>
-                    </p>
-                  <% end %>
-                  <%# <%= link_to 'Back', project_path(task.project)%>
 
-              </div>
-            </div>
-          </div>
-
-          <%#= link_to 'Edit', edit_project_task_path(task.project_id, task.id) %>
-        </td>
-        <td class="edit-options d-none"><%= button_to "Delete", project_task_path(task.project_id, task.id), method: :delete , data: { confirm: 'Are you sure?' }, class:"paper-btn btn-danger padding-small" %></td>
-    </tr>
-    <%tasknum += 1%>
-    <% end %>
-  </tbody>
-</table>
-<table class="table margin border col-5 text-large">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col" style="font-size:25px">No.</th>
-      <th scope="col" style="font-size:25px">Done Tasks</th>
-
-      <th  colspan="5"></th>
-    </tr>
-  </thead>
-<%tasknum = 1%>
-<% @tasks.where(done: true).each do |task|%>
-    <% modalid = "modal-task-#{task.id}"%>
-    <%# <%if task.done%>
-      <%# <tr class="background-primary"> %>
-    <%# <%else%>
-      <%# <tr> %>
-    <%# <%end%>
-        <td style="font-size:20px"><%=tasknum%></td>
-        <td style="font-size:20px">
-            <div class="collapsible">
-              <input id="collapsible-done<%=tasknum%>" type="checkbox" name="collapsible">
-              <label for="collapsible-done<%=tasknum%>" style="text-align: left"><%=task.name%></label>
-              <div class="collapsible-body">
-                <span>Description: <%=task.description%><br></span>
-              </div>
-            </div>
-        </td>
-        <td class="edit-options d-none">
-          <div>
-            <div style="display: inline">
-              <label style="line-height: normal" class="paper-btn btn-secondary padding-small" for=<%=modalid%>>Edit</label>
-            </div>
-            <input class="modal-state" id=<%=modalid%> type="checkbox">
-            <div class="modal">
-              <label class="modal-bg" for=<%=modalid%>></label>
-              <div class="modal-body">
-                <h4>Edit Task for <%= task.project.name %></h4>
-                  <%= form_with url: "/projects/#{@project.id}/tasks/#{task.id}", model: task, local: true do |form| %>
-                    <p class="field margin-bottom-small" style="font-size:15px">
-                      <%= form.label :name %><br>
-                      <%= form.text_field :name, :value => task.name %>
-                    </p>
-                    <p class="field margin-bottom-small" style="font-size:15px">
-                      <%= form.label :description %><br>
-                      <%= form.text_field :description, :value => task.description %>
-                    </p>
-                    <p class="field margin-bottom-small" style="font-size:15px">
-                      <%= form.label :done? %><br>
-                      <%= form.check_box :done %>
-                    </p>
-                    <p>
-                      <%= form.hidden_field :project_id, :value => task.project.id %>
-                    </p>
-                    <p class="field margin-bottom-small" style="font-size:15px">
-                      <%= form.submit %>
-                    </p>
-                  <% end %>
-                  <%# <%= link_to 'Back', project_path(task.project)%>
-
-              </div>
-            </div>
-          </div>
-
-          <%#= link_to 'Edit', edit_project_task_path(task.project_id, task.id) %>
-        </td>
-        <td class="edit-options d-none"><%= button_to  "Delete", project_task_path(task.project_id, task.id), method: :delete , data: { confirm: 'Are you sure?' }, class:"paper-btn btn-danger padding-small" %></td>
-    </tr>
-    <%tasknum += 1%>
-    <% end %>
-  </tbody>
-</table>
+            <%#= link_to 'Edit', edit_project_task_path(task.project_id, task.id) %>
+          </td>
+          <td class="edit-options d-none"><%= button_to  "Delete", project_task_path(task.project_id, task.id), method: :delete , data: { confirm: 'Are you sure?' }, class:"paper-btn btn-danger padding-small" %></td>
+      </tr>
+      <%tasknum += 1%>
+      <% end %>
+    </tbody>
+  </table>
 </div>
+
+<%#  Completion Bar with Badges %>
 <br>
  <%if @project.tasks.count !=0%>
       <%totalTasks = @project.tasks.count%>
@@ -192,37 +342,24 @@
         <%elsif percentDone==100%>
           <h3><div class=" border-dashed"><span class="badge success">🌟Awesome! Well Done!🌟</span></div></h3>
         <% end %>
-        </div>
-      <% end %>
+      </div>
+  <% end %>
 
-
+<%# Old Stuff  %>
   <%# <div style="display: inline">
     <label class="paper-btn margin" for="modal-new">Add New Task</label>
   </div> %>
-  <input class="modal-state" id="modal-new" type="checkbox">
-  <div class="modal">
-    <label class="modal-bg" for="modal-new"></label>
-    <div class="modal-body">
-      <%= render 'tasks/form'  %>
-    </div>
-  </div>
-</div>
+  <%# <div style="display: inline">
+    <button id="reveal-edits" >Edit</button>
+  </div> %>
+  <%# <% if teacher_signed_in? %>
+    <%# <span><%= link_to 'Edit', edit_project_path(@project)%>
+    <%# <span><%= link_to 'Delete', project_path(@project), %>
+              <%# method: :delete, %>
+              <%# data: { confirm: 'Are you sure?' } %>
+  <%# <% end %>
 
 
-<%# <div style="display: inline">
-  <button id="reveal-edits" >Edit</button>
-</div> %>
-
-
-
-
-
-<%# <% if teacher_signed_in? %>
-  <%# <span><%= link_to 'Edit', edit_project_path(@project)%>
-  <%# <span><%= link_to 'Delete', project_path(@project), %>
-            <%# method: :delete, %>
-            <%# data: { confirm: 'Are you sure?' } %>
-<%# <% end %>
 
 <%= javascript_include_tag 'projects' %>
 
