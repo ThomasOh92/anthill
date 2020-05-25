@@ -38,7 +38,11 @@
             <input id="collapsible-todo<%=instructionnum%>" type="checkbox" name="collapsible">
             <label for="collapsible-todo<%=instructionnum%>" style="text-align: left; font-size: 20px; font-weight:normal; line-height: 1.5em"><%=instruction.description%></label>
             <div class="collapsible-body">
+            <% if instruction.document.attached? %>
               <%= link_to 'Download', instruction.document, download: '' %>
+            <% else %>
+              <p>no attachment</p>
+            <% end %>
             </div>
           </div>
       </div>
