@@ -7,6 +7,7 @@ class TasksController < ApplicationController
     @taskcomment = Taskcomment.new 
     @tasks = @project.tasks.order("id")
     @taskcomments = Taskcomment.all
+    @instructions = @project.instructions.order("id")
   end
 
   def create
