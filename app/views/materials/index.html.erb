@@ -22,11 +22,12 @@
 <h3 class="margin text-center">
   <strong>MATERIALS</strong>
 </h3>
-
-<div class="row flex-right margin-right">
-    <h6><label for="modal-new" class="paper-btn margin-small">Add New Material</label></h6>
-    <h6><label id="reveal-edits" class="paper-btn margin-small">Edit Material</label></h6>
-</div>
+<% if teacher_signed_in? %>
+  <div class="row flex-right margin-right">
+      <h6><label for="modal-new" class="paper-btn margin-small">Add New Material</label></h6>
+      <h6><label id="reveal-edits" class="paper-btn margin-small">Edit Material</label></h6>
+  </div>
+<% end %>
 
 <div class="row flex-top flex-left margin">
   <%materialnum = 1%>
