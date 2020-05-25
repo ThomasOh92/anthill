@@ -1,104 +1,93 @@
-<h1>PROJECT Materials</h1>
 <p id="notice"><%= notice %></p>
-<p>
-  <strong>Name:</strong>
-  <%= @project.name %>
-</p>
-<p>
+
+<div class="row margin flex-edges">
+  <div>
+    <h3>
+      <strong>Project:</strong>
+      <%= @project.name %>
+    </h3>
+  </div>
+
+  <div class="paper-btn padding-small"style="font-size:25px" ><strong><%= link_to 'View Instructions', project_instructions_path %></strong></div>
+  <div class="paper-btn padding-small"style="font-size:25px">
+    <strong><%= link_to 'View Project Tasks', project_tasks_path %></strong>
+  </div>
+</div>
+
+<p class="margin text-large">
   <strong>Subject:</strong>
-  <%= @project.subject %>
+  <%= @project.subject%>
 </p>
 
-<table class="table">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">Project</th>
-      <th scope="col">Title</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-  <tbody>
+<h3 class="margin text-center">
+  <strong>MATERIALS</strong>
+</h3>
+
+<div class="row flex-right margin-right">
+    <h6><label for="modal-new" class="paper-btn margin-small">Add New Material</label></h6>
+    <h6><label id="reveal-edits" class="paper-btn margin-small">Edit Material</label></h6>
+</div>
+
+<div class="row flex-top flex-left margin">
   <%materialnum = 1%>
-  <% @materials.each do |material|%>
-    <% modalid = "modal-task-#{material.id}"%>
-    <tr>
-      <td><%=materialnum%></td>
-      <td>
-        <%=material.title%><br>
-      </td>
-      <td>
-        <div style="display: inline">
-          <label class="paper-btn margin" for="modal-2">Show</label>
-        </div>
-        <input class="modal-state" id="modal-2" type="checkbox">
-        <div class="modal">
-          <label class="modal-bg" for="modal-2"></label>
-          <div class="modal-body">
-            <h3><%= material.title %></h3>
-            <p>
-              <% (0..material.photos.count-1).each do |photo| %>
-              <%= image_tag(material.photos[photo], width: 300, height: 200)%>
-              <% end %>
-            </p>
+  <% @project.materials.each do |material|%>
+    <div class="border margin">
+    <% modalid = "modal-material-#{material.id}" %>
+      <div style="font-size:20px; display: inline">
+        <div class="margin-small" >
+          <div class="" >
+            <label style="font-size: 20px; font-weight:normal; line-height: 1.5em"><%=material.title%></label>
           </div>
-        </div>
-      </td>
-      <td class="edit-options d-none">
-        <div>
-          <div style="display: inline">
-            <label style="line-height: normal" class="paper-btn padding-small" for=<%=modalid%>>Edit</label>
-          </div>
-          <input class="modal-state" id=<%=modalid%> type="checkbox">
-          <div class="modal">
-            <label class="modal-bg" for=<%=modalid%>></label>
-            <div class="modal-body">
-              <h1>Edit Material for <%= material.project.name %></h1>
-              <%= form_with url: "/projects/#{@project.id}/materials/#{material.id}", model: material, local: true do |form| %>
-                <p>
-                  <%= form.label :title %><br>
-                  <%= form.text_field :title, :value => material.title %>
-                </p>
-                <p>
-                  <%= form.label :images %><br>
-                  <%= form.file_field :images, multiple: true, direct_upload: true %>
-                </p>
-                <p>
-                  <%= form.hidden_field :project_id, :value => material.project.id %>
-                </p>
-                <p>
-                  <%= form.submit %>
-                </p>
-              <% end %>
-              <%= link_to 'Back', project_materials_path %>
+          <div class="">
+            <div class="">
+              <p><%= image_tag(material.photo, style:"width: 350px; height: 300px; background-size:cover; background-position:center; background-repeat:no-repeat")%></p>
+            </div>
           </div>
         </div>
       </div>
-      </td>
-      <td class="edit-options d-none"><%= button_to  "Delete", project_material_path(material.project_id, material.id), method: :delete , data: { confirm: 'Are you sure?' }, class:"paper-btn padding-small" %></td>
-    </tr>
-    <%materialnum += 1%>
-    <% end %>
-  </tbody>
-</table>
-<br>
-  <div style="display: inline">
-    <label class="paper-btn margin" for="modal-1">New</label>
-  </div>
-  <input class="modal-state" id="modal-1" type="checkbox">
-  <div class="modal">
-    <label class="modal-bg" for="modal-1"></label>
-    <div class="modal-body">
-      <%= render 'materials/form' %>
+      <div class="row flex-center">
+        <div class="edit-options d-none" style="font-size:20px">
+          <label style="line-height: normal" class="paper-btn btn-secondary padding-small margin-small" for=<%=modalid%>>Edit</label>
+        </div>
+        <input class="modal-state" id=<%=modalid%> type="checkbox">
+        <div class="modal">
+          <label class="modal-bg" for=<%=modalid%>></label>
+          <div class="modal-body">
+            <h4>Edit Material for <%= material.project.name %></h4>
+            <%= form_with url: "/projects/#{@project.id}/materials/#{material.id}", model: material, local: true do |form| %>
+              <p>
+                <%= form.label :title %><br>
+                <%= form.text_field :title, :value => material.title %>
+              </p>
+              <p>
+                <%= form.label :images %><br>
+                <%= form.file_field :images, multiple: true, direct_upload: true %>
+              </p>
+              <p>
+                <%= form.hidden_field :project_id, :value => material.project.id %>
+              </p>
+              <p>
+                <%= form.submit %>
+              </p>
+            <% end %>
+          </div>
+        </div>
+        <div class="edit-options d-none"><%= button_to  "Delete", project_material_path(@project, material), method: :delete , data: { confirm: 'Are you sure?' }, class:"paper-btn padding-small margin-small" %>
+        </div>
+      </div>
     </div>
+  <%materialnum += 1%>
+  <% end %>
+</div>
+
+
+
+<input class="modal-state" id="modal-new" type="checkbox">
+<div class="modal">
+  <label class="modal-bg" for="modal-new"></label>
+  <div class="modal-body">
+    <%= render 'materials/form'  %>
   </div>
-
-<div style="display: inline">
-  <button id="reveal-edits" >Edit</button>
 </div>
 
-<div style="display: inline">
-  <%= link_to 'Back', projects_path %>
-</div>
-
-
-
+<%= javascript_include_tag 'projects' %>

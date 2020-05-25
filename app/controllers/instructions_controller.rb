@@ -4,6 +4,7 @@ class InstructionsController < ApplicationController
   def index
     @project = Project.find(params[:project_id])
     @instruction = Instruction.new
+    @tasks = @project.tasks.order("id")
     @instructions = @project.instructions.order("id")
   end
 
@@ -13,7 +14,7 @@ class InstructionsController < ApplicationController
     if @instruction.save
       redirect_to project_instructions_path, notice: 'Instruction was successfully created.'
     else
-      redirect_to project_instructions_path, alert: "Unable to add note!"
+      redirect_to project_instructions_path, alert: "Unable to add instruction!"
     end
   end
 
@@ -22,14 +23,15 @@ class InstructionsController < ApplicationController
     @instruction = Instruction.find(params[:id])
   end
 
-  def show
-    @project = Project.find(params[:project_id])
-    @instruction = Instruction.find(params[:id])
-  end
+  # def show
+  #   @project = Project.find(params[:project_id])
+  #   @instructions = @project.instructions.order("id")
+  # end
 
   def update
     @project = Project.find(params[:project_id])
-    @instruction = Instruction.find(params[:id].update(instruction_params))
+    @instruction = @project.instructions.find(params[:id])
+    @instruction.update(instruction_params)
 
     redirect_to project_instructions_path, notice: 'Instruction edited.'
   end

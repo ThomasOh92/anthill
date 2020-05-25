@@ -18,3 +18,8 @@ project1 = Project.create :subject => 'History', :name => 'History Project', :te
 
 project1.students << student1
 project1.students << student2
+
+
+instruction1 = Instruction.create :description => 'Be polite when interviewing Grandparents. You may ask them about: - their pastime when they are your age, - life when they were your age, - school life, - living conditions.', :project_id => 1
+
+instruction1.document.attach(io: File.open('/Users/rachelik/Pictures/railsnamingconventions.pdf'), filename: 'railsnamingconventions.pdf', content_type: 'application/pdf')
