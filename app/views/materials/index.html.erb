@@ -40,9 +40,9 @@
             <label style="font-size: 20px; font-weight:normal; line-height: 1.5em"><%=material.title%></label>
           </div>
           <div class="">
-            <div class="">
+            <% if material.photo.attached? %>
               <p><%= image_tag(material.photo, style:"width: 350px; height: 300px; background-size:cover; background-position:center; background-repeat:no-repeat")%></p>
-            </div>
+            <% end %>
           </div>
         </div>
       </div>
@@ -61,8 +61,8 @@
                 <%= form.text_field :title, :value => material.title %>
               </p>
               <p>
-                <%= form.label :images %><br>
-                <%= form.file_field :images, multiple: true, direct_upload: true %>
+                <%= form.label :photo %><br>
+                <%= form.file_field :photo, direct_upload: true, accept: "image/jpeg image/jpg image/png" %>
               </p>
               <p>
                 <%= form.hidden_field :project_id, :value => material.project.id %>

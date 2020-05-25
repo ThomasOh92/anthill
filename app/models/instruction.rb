@@ -4,6 +4,8 @@ class Instruction < ApplicationRecord
 
   validate :document_validation
 
+  private
+
   def document_validation
     error_message = ''
     document_valid = true

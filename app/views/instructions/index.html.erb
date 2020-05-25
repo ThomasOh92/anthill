@@ -64,7 +64,7 @@
               </p>
               <p class="field margin-bottom-small" style="font-size:15px">
                 <%= form.label :document %><br>
-                <%= form.file_field :document, direct_upload: true %>
+                <%= form.file_field :document, direct_upload: true, accept: "application/pdf" %>
               </p>
               <p>
                 <%= form.hidden_field :project_id, :value => instruction.project.id %>

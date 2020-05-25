@@ -25,9 +25,10 @@ class MaterialsController < ApplicationController
 
   def update
     @project = Project.find(params[:project_id])
-    @material = Material.find(params[:id].update(material_params))
+    @material = @project.materials.find(params[:id])
+    @material.update(material_params)
 
-    redirect_to project_materials_path, notice: 'Instruction edited.'
+    redirect_to project_materials_path, notice: 'Material edited.'
   end
 
   def destroy
