@@ -7,10 +7,23 @@ class ProjectsController < ApplicationController
 
   def index
     if teacher_signed_in?
-      @projects = Project.where(teacher_id: @teacher.id)
+      @projectsall = Project.where(teacher_id: @teacher.id)
+      if params.key?(:assignment) && params.key?(:subject)
+        if params[:assignment] == "" && params[:subject] == ""
+          @projects = Project.where(teacher_id: @teacher.id).order(:assignment)
+        elsif params[:assignment] == ""
+          @projects = Project.where(teacher_id: @teacher.id, subject: params[:subject]).order(:assignment)
+        elsif params[:subject] == ""
+          @projects = Project.where(teacher_id: @teacher.id, assignment: params[:assignment]).order(:assignment)
+        else
+          @projects = Project.where(teacher_id: @teacher.id, assignment: params[:assignment], subject: params[:subject]).order(:assignment)
+        end
+      else
+        @projects = Project.where(teacher_id: @teacher.id).order(:assignment)
+      end  
       @current_user = current_teacher
     else
-      @projects = @student.projects
+      @projects = @student.projects.order(:subject)
       @current_user = current_student
 
     end
@@ -28,6 +41,7 @@ class ProjectsController < ApplicationController
       @project = Project.find(params[:id])
       @teacher
       @students = Student.all
+      @projassignments = Project.select(:assignment).distinct
     end
   end
 
@@ -37,6 +51,7 @@ class ProjectsController < ApplicationController
     else
       @teacher
       @students = Student.all
+      @projassignments = Project.select(:assignment).distinct
     end
   end
 
@@ -91,7 +106,7 @@ class ProjectsController < ApplicationController
     end
 
     def project_params
-      params.require(:project).permit(:subject, :name, :teacher_id, :student_ids)
+      params.require(:project).permit(:subject, :name, :teacher_id, :assignment)
     end
 
     def authenticate_user!

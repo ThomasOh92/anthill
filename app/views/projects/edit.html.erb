@@ -3,6 +3,17 @@
 </div>
 
 <%= form_with scope: :project, model: @project, local: true do |form| %>
+  <p class="margin text-large">
+    <%= form.label :assignment,"Assignment: " %><br>
+    <%= form.text_field :assignment, list: "current-assignments" %>
+    <datalist id="current-assignments">
+      <% @projassignments.each do |proj| %>
+        <option>
+          <%=proj.assignment%>
+        </option>
+      <% end %>
+    </datalist>
+  </p>
 
  <p class="margin text-large">
     <%= form.label :name,"Name: "%><br>

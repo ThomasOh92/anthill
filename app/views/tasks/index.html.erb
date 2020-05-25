@@ -12,8 +12,9 @@
 
 <%# Details on Project - Subject, Students, TeacherinCharge %>
 <p class="margin text-large">
-  <strong>Subject:</strong>
-  <%= @project.subject %>
+  <strong>Assignment:</strong>
+  <%= @project.assignment %>
+  <span class="text-secondary"><strong>  (Subject: </strong><%= @project.subject %>)</span>
 </p>
 <p class="margin margin-top-small text-large">
   <strong>Students:</strong>

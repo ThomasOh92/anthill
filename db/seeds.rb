@@ -14,7 +14,7 @@ teacher = Teacher.create :name => 'Tan Do', :email => 'tando@gmail.com', :passwo
 
 teacher = Teacher.create :name => 'Chen Do', :email => 'Chendo@gmail.com', :password => 'topsecret', :password_confirmation => 'topsecret'
 
-project1 = Project.create :subject => 'History', :name => 'History Project', :teacher_id => 1
+project1 = Project.create :subject => 'History', :name => 'History Project', :teacher_id => 1, :assignment => 'History Project 5 - The Rise of Hitler'
 
 project1.students << student1
 project1.students << student2
