@@ -58,7 +58,7 @@
         </div>
         <div class="row flex-center">
           <div class="edit-options d-none" style="font-size:20px">
-            <label style="line-height: normal" class="paper-btn btn-secondary padding-small margin-small" for=<%=modalid%>>Edit</label>
+            <p><label style="line-height: normal" class="paper-btn btn-secondary padding-small" for=<%=modalid%>>Edit</label></p>
           </div>
           <input class="modal-state" id=<%=modalid%> type="checkbox">
           <div class="modal">
@@ -78,7 +78,7 @@
                   <%= form.hidden_field :project_id, :value => material.project.id %>
                 </p>
                 <p>
-                  <%= form.submit %>
+                  <%= form.submit "Update Material", class:"paper-btn  padding-small" %>
                 </p>
               <% end %>
             </div>
