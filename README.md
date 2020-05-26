@@ -1,4 +1,7 @@
-# README
+# Anthill
+## GA SEI 22 - Unit 3 Project
+## URL: https://anthill-sei22.herokuapp.com/
+### Description: Project Management Tool for Students & Teachers
 
 # Explanations of the technologies used
 - Devise authentication
