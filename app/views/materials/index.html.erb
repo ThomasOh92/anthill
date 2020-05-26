@@ -1,4 +1,10 @@
-<div class="row margin flex-right">
+
+  <div class="row margin flex-edges">
+        <h3>
+          <strong>Project:</strong>
+          <%= @project.name %>
+        </h3>
+     <div class="row margin flex-right">
   <div>
     <strong>
       <%= link_to 'Instructions', project_instructions_path, class:"paper-btn", style:"font-size: 24px"  %>
@@ -9,19 +15,26 @@
     </strong>
   </div>
 </div>
+</div>
 
-<div class="container" style="min-width: 400px">
-  <h3>
-    <!-- <strong>Project:</strong> -->
-    <%= @project.name %>
-  </h3>
-  <p style="font-size:25px">
-    <!-- <strong>Subject:</strong> -->
-    <%= @project.subject%>
+  <p class="margin text-large">
+    <strong>Assignment:</strong>
+    <%= @project.assignment %>
+    <span class="text-secondary"><strong>  (Subject: </strong><%= @project.subject %>)</span>
   </p>
-
-  <br>
-
+  <p class="margin margin-top-small text-large">
+    <strong>Students:</strong>
+    <% @project.students.each do |student| %>
+      <span>| </span><%=student.name%>
+    <%end%>
+    <span> |</span>
+  </p>
+  <p class="margin margin-top-small text-large">
+    <strong>Teacher-In-Charge:</strong>
+    <%= @project.teacher.name %>
+  </p>
+  
+<div class="container" style="min-width: 400px">
   <h3 class="margin text-center text-secondary">
     <strong>MATERIALS</strong>
   </h3>
@@ -47,7 +60,7 @@
         <div style="font-size:20px; display: inline">
           <div class="margin-small" >
             <div class="" >
-              <label style="font-size: 20px; font-weight:normal; line-height: 1.5em"><%=material.title%></label>
+              <p><label style="font-size: 25px; font-weight:normal; line-height: 1.5em"><%=material.title%></label></p>
             </div>
             <div class="">
               <% if material.photo.attached? %>

@@ -1,23 +1,42 @@
-<div class="row margin flex-right">
-  <div>
-    <strong><%= link_to 'Materials', project_materials_path, class:"paper-btn", style:"font-size:24px" %>
-    </strong>
-  </div>
-  <div>
-    <strong><%= link_to 'Tasks', project_tasks_path, class:"paper-btn margin-left", style:"margin-right: 35px; font-size: 24px" %>
-    </strong>
-  </div>
+
+
+  <div class="row margin flex-edges">
+        <h3>
+          <strong>Project:</strong>
+          <%= @project.name %>
+        </h3>
+        <div class="row margin flex-right">
+      <div>
+        <strong><%= link_to 'Materials', project_materials_path, class:"paper-btn", style:"font-size:24px" %>
+        </strong>
+      </div>
+      <div>
+        <strong><%= link_to 'Tasks', project_tasks_path, class:"paper-btn margin-left", style:"margin-right: 35px; font-size: 24px" %>
+        </strong>
+      </div>
+    </div>
 </div>
 
-<div class="container" style="min-width: 400px">
-  <h3>
-    <!-- <strong>Project:</strong> -->
-    <%= @project.name %>
-  </h3>
-  <p class="row" style="font-size:25px">
-    <!-- <strong>Subject:</strong> -->
-    <%= @project.subject%>
+  <%# Details on Project - Subject, Students, TeacherinCharge %>
+  <p class="margin text-large">
+    <strong>Assignment:</strong>
+    <%= @project.assignment %>
+    <span class="text-secondary"><strong>  (Subject: </strong><%= @project.subject %>)</span>
   </p>
+  <p class="margin margin-top-small text-large">
+    <strong>Students:</strong>
+    <% @project.students.each do |student| %>
+      <span>| </span><%=student.name%>
+    <%end%>
+    <span> |</span>
+  </p>
+  <p class="margin margin-top-small text-large">
+    <strong>Teacher-In-Charge:</strong>
+    <%= @project.teacher.name %>
+  </p>
+
+<div class="container" style="min-width: 400px">
+ 
 
   <br>
 
@@ -46,7 +65,7 @@
         <div style="font-size:20px">
             <div class="collapsible row padding-left padding-right">
               <input id="collapsible-todo<%=instructionnum%>" type="checkbox" name="collapsible">
-              <label for="collapsible-todo<%=instructionnum%>" style="text-align: left; font-size: 20px; font-weight:normal; line-height: 1.5em"><%=instruction.description%></label>
+              <p><label for="collapsible-todo<%=instructionnum%>" style="text-align: left; font-size: 25px; font-weight:normal; line-height: 1.5em"><%=instruction.description%></label></p>
               <div class="collapsible-body text-center">
               <% if instruction.document.attached? %>
                 <%= link_to 'Download', instruction.document, download: '' %>
@@ -102,4 +121,5 @@
   </div>
 
 </div>
+
   <%= javascript_include_tag 'projects' %>
