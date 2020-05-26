@@ -1,12 +1,10 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
 
-  
-
   before_action :set_user, only: [:new, :index, :show, :edit, :update, :destroy]
 
   def index
-    if teacher_signed_in?
+    if teacher_signed_in? # Teacher Sign In
       @projectsall = Project.where(teacher_id: @teacher.id)
       if params.key?(:assignment) && params.key?(:subject)
         if params[:assignment] == "" && params[:subject] == ""
@@ -22,10 +20,14 @@ class ProjectsController < ApplicationController
         @projects = Project.where(teacher_id: @teacher.id).order(:assignment)
       end  
       @current_user = current_teacher
-    else
-      @projects = @student.projects.order(:subject)
+    else # Student Sign In
+      @projectsall = @student.projects
+      if params.key?(:subject) && params[:subject] != ""
+        @projects = @student.projects.where(subject: params[:subject]).order(:subject)
+      else
+        @projects = @student.projects.order(:subject)
+      end
       @current_user = current_student
-
     end
   end
 
