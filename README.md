@@ -11,7 +11,9 @@
 - Papercss (Css framework!)
 
 # A couple paragraphs about the general approach you took
-Just do it. 
+Just do it.
+
+![Tenor](https://media.tenor.com/images/af0388c95262099b2ec37546616e52cb/tenor.gif)
 - First phase: We coded together! by looking at one person build up the basic features.
 - Second phase:
     - Can split the work
@@ -46,3 +48,4 @@ https://imgur.com/a/xIv7xJI
 - Working with Asset Pipeline
 - Working with Cloudinary
 - Framing the entire project, choosing with features to build
+
