@@ -67,7 +67,12 @@
             <td style="font-size:20px">
                 <div class="collapsible">
                   <input id="collapsible-todo<%=tasknum%>" type="checkbox" name="collapsible">
-                  <label for="collapsible-todo<%=tasknum%>" style="text-align: left"><%=task.name%></label>
+                  <label for="collapsible-todo<%=tasknum%>" style="text-align: left">
+                  <%=task.name%>&emsp;&emsp;&emsp;
+                  <% if !@taskcomments.where(task_id: task.id).empty?%>
+                        💬 <%= @taskcomments.where(task_id: task.id).count%>
+                  <%end%>
+                  </label>
                   <div class="collapsible-body">
                     <span>Description: <%=task.description%><br></span>
                     <%# Comments %>
@@ -212,7 +217,11 @@
           <td style="font-size:20px">
               <div class="collapsible">
                 <input id="collapsible-done<%=tasknum%>" type="checkbox" name="collapsible">
-                <label for="collapsible-done<%=tasknum%>" style="text-align: left"><%=task.name%></label>
+                <label for="collapsible-done<%=tasknum%>" style="text-align: left">   
+                <%=task.name%>&emsp;&emsp;&emsp;
+                  <% if !@taskcomments.where(task_id: task.id).empty?%>
+                        💬 <%= @taskcomments.where(task_id: task.id).count%>
+                  <%end%></label>
                 <div class="collapsible-body">
                   <span>Description: <%=task.description%><br></span>
                     <div>

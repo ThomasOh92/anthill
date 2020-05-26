@@ -51,7 +51,7 @@
               <% if instruction.document.attached? %>
                 <%= link_to 'Download', instruction.document, download: '' %>
               <% else %>
-                <p>no attachment</p>
+                <p>No attachment</p>
               <% end %>
               </div>
             </div>
@@ -59,7 +59,7 @@
         <div class="row flex-center">
           <div class="edit-options d-none" style="font-size:20px">
             <div >
-              <label class="paper-btn btn-secondary padding-small margin-small" style="line-height: normal" for=<%=modalid%>>Edit</label>
+              <p><label class="paper-btn btn-secondary padding-small" style="line-height: normal" for=<%=modalid%>>Edit</label></p>
             </div>
           </div>
           <input class="modal-state" id=<%=modalid%> type="checkbox">
@@ -80,7 +80,7 @@
                   <%= form.hidden_field :project_id, :value => instruction.project.id %>
                 </p>
                 <p class="field margin-bottom-small" style="font-size:15px">
-                  <%= form.submit %>
+                  <%= form.submit "Update Instruction" , class:"paper-btn  padding-small"%>
                 </p>
               <% end %>
             </div>
