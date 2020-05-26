@@ -1,3 +1,4 @@
+![Image of Anthill](https://github.com/Rachelik/anthill/blob/master/app/assets/images/Screenshot%202020-05-26%20at%2010.46.05%20AM.png)
 # Anthill
 ## GA SEI 22 - Unit 3 Project
 ## URL: https://anthill-sei22.herokuapp.com/
@@ -30,6 +31,15 @@ Just do it.
 
 # Link to your wireframes /user flow – sketches of major views / interfaces in your application
 https://imgur.com/a/xIv7xJI
+### Wireframes:
+![Todo List](https://i.imgur.com/FyFrrbu.png)
+![Instructions](https://i.imgur.com/za8FS5v.png)
+![Teacher's Comments](https://i.imgur.com/y3V6dQU.png)
+
+### User Flow
+![User Flow](https://i.imgur.com/teBYy5I.jpg)
+
+
 
 # Descriptions of any unsolved problems or major hurdles your team had to overcome
 - Overcoming fears of merging our branches
