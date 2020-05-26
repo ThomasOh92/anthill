@@ -9,7 +9,7 @@
   <%if @projects.empty?%>
     <h3>No projects to show</h3>
   <%else%>
-        <div class="row flex-left margin-none">
+      <div class="row flex-left margin-none col-12">
 
       <h3 style="margin: 0 20px 0 0">Projects</h3>  
       <%# Sort Form %>
@@ -34,7 +34,7 @@
 
     </div>
 
-    <div class= "row flex-left">
+    <div class= "row flex-left" style="margin: 0">
     <% @projects.select(:assignment).distinct.each do |project| %>
       <div class= "row margin flex-left col-12">
       <div class= "col-12"><h4 style="margin-bottom: 20px; margin-top:10px"><%=project.assignment%></h4></div>
