@@ -1,5 +1,9 @@
 # Anthill Presentation
 
+[Presentation Slide Deck](https://github.com/Rachelik/anthill/blob/master/Anthill%20Slide%20Deck.pdf)
+
+## User Demo Walkthrough
+
 1. Login & Sign up pages, to create/login as a teacher/student.
 
 |Page| Screen |
